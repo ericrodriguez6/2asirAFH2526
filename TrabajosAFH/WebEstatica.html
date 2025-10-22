@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mis Trabajos</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      background-color: #f8f9fa;
+      color: #1a1a1a;
+    }
+    header {
+      background-color: #003366;
+      color: white;
+      padding: 25px 15px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      letter-spacing: 0.05em;
+    }
+    main {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 15px;
+    }
+    section {
+      background: white;
+      margin-bottom: 30px;
+      padding: 20px 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    section h2 {
+      color: #003366;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #ffc107;
+      padding-bottom: 5px;
+    }
+    .trabajo {
+      margin-bottom: 15px;
+    }
+    .trabajo h3 {
+      margin: 0 0 5px 0;
+      color: #0077cc;
+    }
+    a {
+      color: #0077cc;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      background-color: #003366;
+      color: #ddd;
+      text-align: center;
+      padding: 15px 10px;
+      font-size: 0.9rem;
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+      box-shadow: 0 -2px 6px rgba(0,0,0,0.3);
+    }
+    button#welcomeBtn {
+      display: block;
+      margin: 15px auto 0 auto;
+      background-color: #ffc107;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      color: #003366;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      transition: background-color 0.3s ease;
+    }
+    button#welcomeBtn:hover {
+      background-color: #e0a800;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Mis Trabajos 2º ASIR</h1>
+</header>
+
+<main>
+  <section id="trabajos">
+    <h2>Mis 4 Trabajos del Curso</h2>
+
+    <div class="trabajo">
+      <h3>Trabajo 1:Montar un servidor de IA/h3>
+      <p>Montaje y presupuesto de un servidor de IA</p>
+      <a href="https://aulavirtual33.educa.madrid.org/ies.calderon.pinto/pluginfile.php/138529/assignsubmission_file/submission_files/451699/Practica%20Montaje%20Servidor%20IA%20Eric%20Rodriguez%20Del%20Mazo%202%20ASIR.pdf?forcedownload=1" target="_blank" rel="noopener noreferrer">Ver trabajo completo</a>
+    </div>
+
+    <div class="trabajo">
+      <h3>Trabajo 2: Desmontar y Montar de un PC en el taller</h3>
+      <p>Desmontaje y Montaje de un PC en el taller</p>
+      <a href="https://aulavirtual33.educa.madrid.org/ies.calderon.pinto/pluginfile.php/138527/assignsubmission_file/submission_files/459403/Practica%20Montaje%20y%20Desmonataje%20de%20un%20PC%20en%20el%20Taller%20Eric%20Rodriguez%202%20ASIR.pdf?forcedownload=1" target="_blank" rel="noopener noreferrer">Ver trabajo completo</a>
+    </div>
+
+    <div class="trabajo">
+      <h3>Trabajo 3: Desmontar y Montar un Servidor y un Portatil en el taller</h3>
+      <p>Desmontaje y Montaje de un Servidor y un Portatil en el taller</p>
+      <a href="ENLACE_TRABAJO_3" target="_blank" rel="noopener noreferrer">Ver trabajo completo</a>
+    </div>
+
+    <div class="trabajo">
+      <h3>Trabajo 4: Página Web Estática en GitHub</h3>
+      <p>Portafolio web publicado usando GitHub Pages.</p>
+      <a href="https://tuusuario.github.io" target="_blank" rel="noopener noreferrer">Ver sitio web</a>
+    </div>
+  </section>
+
+  <button id="welcomeBtn">Mensaje de Bienvenida</button>
+</main>
+
+<footer>
+  <p>© 2025 Mi Portafolio - Curso 2º ASIR</p>
+</footer>
+
+<script>
+  document.getElementById('welcomeBtn').addEventListener('click', () => {
+    alert('¡Bienvenido a mi portafolio de trabajos del curso ASIR!');
+  });
+</script>
+
+</body>
+</html>
