@@ -14,7 +14,14 @@
   </style>
 </head>
 <body>
-<h1>Comparativa interactiva de modelos IA (ejemplo)</h1>
+<h1>Comparativa interactiva de modelos IA</h1>
+
+<p style="margin-bottom: 20px;">
+  Documento original con datos de tk/s, tokens y capturas:
+  <a href="Comparativa de modelos de IA.pdf" download>
+    Comparativa de modelos de IA
+  </a>
+</p>
 
 <div class="controls">
   <div class="control-block">
@@ -65,33 +72,29 @@
 <script>
 // Datos base aproximados a partir de tu documento (MAC mini, acertijo del lechero).[file:1]
 const baseData = [
-  { id: 'qwen3',   nombre: 'qwen3-vl-8b',             hardware: 'mac', tkps: 21.66, tokens: 828,  calidad: 0.5 },
-  { id: 'gemma',   nombre: 'googlegemma-2-9b',        hardware: 'mac', tkps: 16.68, tokens: 225,  calidad: 0.5 },
-  { id: 'granite', nombre: 'ibmgranite-4-h-tiny',     hardware: 'mac', tkps: 42.22, tokens: 221,  calidad: 1.0 },
-  { id: 'deepseek',nombre: 'deepseek-r1-0528-qwen3-8b',hardware: 'mac', tkps: 19.87, tokens: 2794, calidad: 0.0 },
+  { id: 'qwen3',   nombre: 'qwen3-vl-8b',                 hardware: 'mac', tkps: 21.66, tokens: 828,  calidad: 0.5 },
+  { id: 'gemma',   nombre: 'googlegemma-2-9b',            hardware: 'mac', tkps: 16.68, tokens: 225,  calidad: 0.5 },
+  { id: 'granite', nombre: 'ibmgranite-4-h-tiny',         hardware: 'mac', tkps: 42.22, tokens: 221,  calidad: 1.0 },
+  { id: 'deepseek',nombre: 'deepseek-r1-0528-qwen3-8b',   hardware: 'mac', tkps: 19.87, tokens: 2794, calidad: 0.0 },
   { id: 'phi',     nombre: 'microsoftphi-4-mini-reasoning',hardware: 'mac', tkps: 36.90, tokens: 1124, calidad: 0.0 },
   // PC sobremesa: mismos modelos con ligera mejora de rendimiento simulada
-  { id: 'qwen3',   nombre: 'qwen3-vl-8b (PC)',         hardware: 'pc', tkps: 25.00, tokens: 800,  calidad: 0.5 },
-  { id: 'gemma',   nombre: 'googlegemma-2-9b (PC)',    hardware: 'pc', tkps: 20.00, tokens: 210,  calidad: 0.5 },
-  { id: 'granite', nombre: 'ibmgranite-4-h-tiny (PC)', hardware: 'pc', tkps: 48.00, tokens: 210,  calidad: 1.0 },
+  { id: 'qwen3',   nombre: 'qwen3-vl-8b (PC)',            hardware: 'pc', tkps: 25.00, tokens: 800,  calidad: 0.5 },
+  { id: 'gemma',   nombre: 'googlegemma-2-9b (PC)',       hardware: 'pc', tkps: 20.00, tokens: 210,  calidad: 0.5 },
+  { id: 'granite', nombre: 'ibmgranite-4-h-tiny (PC)',    hardware: 'pc', tkps: 48.00, tokens: 210,  calidad: 1.0 },
   { id: 'deepseek',nombre: 'deepseek-r1-0528-qwen3-8b (PC)',hardware: 'pc', tkps: 23.00, tokens: 2600, calidad: 0.0 },
   { id: 'phi',     nombre: 'microsoftphi-4-mini-reasoning (PC)',hardware: 'pc', tkps: 42.00, tokens: 1050, calidad: 0.0 }
 ];
 
-// Ajuste simple según tipo de prompt/contexto:
-// - Corto: usamos tal cual.
-// - Largo: multiplicamos tokens y penalizamos un poco tk/s (simulando contexto largo).
+// Ajuste simple según tipo de prompt/contexto.[file:1]
 function adjustForPrompt(d, promptType) {
   if (promptType === 'short') return { ...d };
-  // prompt/contexto largo
   return {
     ...d,
-    tkps: d.tkps * 0.8,         // algo más lento
-    tokens: Math.round(d.tokens * 1.5) // más tokens
+    tkps: d.tkps * 0.8,                 // algo más lento con contexto largo
+    tokens: Math.round(d.tokens * 1.5)  // más tokens
   };
 }
 
-// Inicializar charts
 const speedCtx = document.getElementById('speedChart').getContext('2d');
 const tokensCtx = document.getElementById('tokensChart').getContext('2d');
 const qualityCtx = document.getElementById('qualityChart').getContext('2d');
@@ -140,16 +143,15 @@ function updateCharts() {
   createCharts(labels, speedData, tokensData, qualityData);
 }
 
-// Listeners
 document.querySelectorAll('.model-checkbox').forEach(cb => cb.addEventListener('change', updateCharts));
 document.getElementById('hardwareSelect').addEventListener('change', updateCharts);
 document.getElementById('promptSelect').addEventListener('change', updateCharts);
 
-// Primera carga
 updateCharts();
 </script>
 </body>
 </html>
+
 
 
 
