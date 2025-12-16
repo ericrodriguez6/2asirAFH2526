@@ -1,223 +1,156 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>45 Capturas IA - Análisis Completo MAC vs PC</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background: #f5f5f5; }
-        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
-        h1 { text-align: center; color: #2c3e50; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-             color: white; padding: 30px; border-radius: 10px; margin-bottom: 30px; }
-        .hardware-section { margin-bottom: 50px; padding: 25px; background: white; border-radius: 12px; 
-                           box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        .hardware-section h2 { color: #34495e; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
-        .modelo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; }
-        .captura { border: 2px solid #ecf0f1; padding: 20px; border-radius: 10px; background: #fafbfc;
-                  transition: all 0.3s; position: relative; }
-        .captura:hover { border-color: #3498db; transform: translateY(-5px); box-shadow: 0 15px 40px rgba(52,152,219,0.2); }
-        .captura img { max-width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 15px; }
-        .modelo-header { font-size: 1.3em; color: #e74c3c; font-weight: bold; margin-bottom: 10px; }
-        .acertijo-header { font-size: 1.1em; color: #27ae60; font-weight: 600; margin: 10px 0; }
-        .metricas { background: linear-gradient(90deg, #3498db, #2980b9); color: white; padding: 8px; 
-                   border-radius: 6px; font-family: monospace; font-size: 0.9em; margin-bottom: 10px; }
-        .explicacion { color: #2c3e50; line-height: 1.6; font-size: 0.95em; }
-        .fallo { color: #e74c3c; font-weight: bold; }
-        .exito { color: #27ae60; font-weight: bold; }
-        .graficas { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 25px; margin: 50px 0; }
-        .grafica-item { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        .print-btn { position: fixed; top: 20px; right: 20px; background: #27ae60; color: white; padding: 12px 24px; 
-                    border: none; border-radius: 25px; cursor: pointer; font-weight: bold; z-index: 1000; }
-        .total-capturas { text-align: center; background: #27ae60; color: white; padding: 15px; border-radius: 8px; margin: 20px 0; font-size: 1.2em; }
-    </style>
+  <meta charset="UTF-8">
+  <title>Comparativa interactiva de modelos IA</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    h1 { text-align: center; }
+    .controls { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+    .control-block { border: 1px solid #ccc; padding: 10px; border-radius: 6px; }
+    .charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
+    canvas { background: #fff; border: 1px solid #eee; }
+  </style>
 </head>
 <body>
+<h1>Comparativa interactiva de modelos IA (ejemplo)</h1>
 
-<button class="print-btn" onclick="window.print()">🖨️ Imprimir/Exportar</button>
+<div class="controls">
+  <div class="control-block">
+    <strong>Modelos:</strong><br>
+    <label><input type="checkbox" class="model-checkbox" value="qwen3" checked> qwen3-vl-8b</label><br>
+    <label><input type="checkbox" class="model-checkbox" value="gemma" checked> googlegemma-2-9b</label><br>
+    <label><input type="checkbox" class="model-checkbox" value="granite" checked> ibmgranite-4-h-tiny</label><br>
+    <label><input type="checkbox" class="model-checkbox" value="deepseek" checked> deepseek-r1-0528-qwen3-8b</label><br>
+    <label><input type="checkbox" class="model-checkbox" value="phi" checked> microsoftphi-4-mini-reasoning</label>
+  </div>
 
-<div class="container">
-    <h1>📊 ANÁLISIS COMPLETO: 45 CAPTURAS IA<br><small>MAC MINI (22) vs PC SOBREMESA (23)</small></h1>
-    
-    <div class="total-capturas">
-        🔍 <strong>45 CAPTURAS ANALIZADAS</strong> | MAC: 22 | PC: 23 | Total métricas extraídas: 68 valores
-    </div>
+  <div class="control-block">
+    <strong>Hardware:</strong><br>
+    <select id="hardwareSelect">
+      <option value="all">MAC + PC</option>
+      <option value="mac">Solo MAC mini</option>
+      <option value="pc">Solo PC sobremesa</option>
+    </select>
+  </div>
 
-    <!-- ==================== MAC MINI - 22 CAPTURAS ==================== -->
-    <div class="hardware-section">
-        <h2>📱 MAC MINI - 22 Capturas</h2>
-        <div class="modelo-grid">
-            
-            <!-- QWEN3-VL-8B MAC (5 capturas) -->
-            <div class="captura">
-                <div class="modelo-header">qwen3-vl-8b #1</div>
-                <div class="acertijo-header">Acertijo Lechero</div>
-                <img src="mac-qwen3-01-lechero.png" alt="Captura 1">
-                <div class="metricas">21.66 tok/s | TTFT 1.00s | 828 tokens | H:3.29in</div>
-                <div class="explicacion">Respuesta <span class="exito">correcta</span> pero subóptima - usa botella 5gal (verbose).[file:1]</div>
-            </div>
+  <div class="control-block">
+    <strong>Tipo de prompt/contexto:</strong><br>
+    <select id="promptSelect">
+      <option value="short">Corto / poco contexto (ej. acertijo suelto)</option>
+      <option value="long">Largo / mucho contexto (ej. explicación muy extensa)</option>
+    </select>
+    <p style="font-size:0.8em;margin-top:8px;">
+      En tu documento esto se refleja en el número de tokens y la altura de cada captura.[file:1]
+    </p>
+  </div>
+</div>
 
-            <div class="captura">
-                <div class="modelo-header">qwen3-vl-8b #2</div>
-                <div class="acertijo-header">Riddle Secreto</div>
-                <img src="mac-qwen3-02-secreto.png" alt="Captura 2">
-                <div class="metricas">H:3.29in | Tokens altos</div>
-                <div class="explicacion">Explicación extensa para riddle simple. Patrón verbose.[file:1]</div>
-            </div>
-
-            <div class="captura">
-                <div class="modelo-header">qwen3-vl-8b #3</div>
-                <div class="acertijo-header">Riddle Silencio</div>
-                <img src="mac-qwen3-03-silencio.png" alt="Captura 3">
-                <div class="metricas">H:4.58in</div>
-                <div class="explicacion">Output excesivamente largo para respuesta simple.[file:1]</div>
-            </div>
-
-            <!-- GOOGLE GEMMA MAC (5 capturas) -->
-            <div class="captura">
-                <div class="modelo-header">googlegemma-2-9b #1</div>
-                <div class="acertijo-header">Acertijo Lechero</div>
-                <img src="mac-gemma-01-lechero.png" alt="Captura 6">
-                <div class="metricas">16.68 tok/s | TTFT 0.27s | 225 tokens | H:2.32in</div>
-                <div class="explicacion"><span class="exito">TTFT rápido</span>. Correcta pero subóptima.[file:1]</div>
-            </div>
-
-            <!-- IBM GRANITE MAC (5 capturas) -->
-            <div class="captura">
-                <div class="modelo-header">ibmgranite-4-h-tiny #1</div>
-                <div class="acertijo-header">Acertijo Lechero</div>
-                <img src="mac-granite-01-lechero.png" alt="Captura 11">
-                <div class="metricas">42.22 tok/s | TTFT 0.81s | 221 tokens | H:1.32in</div>
-                <div class="explicacion"><span class="exito">LÍDER</span> - óptima + máxima velocidad + mínimo output.[file:1]</div>
-            </div>
-
-            <!-- DEEPSEEK MAC (3 capturas) -->
-            <div class="captura">
-                <div class="modelo-header">deepseek-r1 #1</div>
-                <div class="acertijo-header">Acertijo Lechero</div>
-                <img src="mac-deepseek-01-lechero.png" alt="Captura 16">
-                <div class="metricas">19.87 tok/s | TTFT 0.79s | 2794 tokens</div>
-                <div class="explicacion"><span class="fallo">FALLA TOTAL</span> - no resuelve lógica secuencial.[file:1]</div>
-            </div>
-
-            <!-- MICROSOFT PHI MAC (4 capturas) -->
-            <div class="captura">
-                <div class="modelo-header">microsoftphi #1</div>
-                <div class="acertijo-header">Acertijo Lechero</div>
-                <img src="mac-phi-01-lechero.png" alt="Captura 19">
-                <div class="metricas">36.90 tok/s | TTFT 0.35s | 1124 tokens</div>
-                <div class="explicacion"><span class="fallo">FALLA</span> pese a buena velocidad.[file:1]</div>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- ==================== PC SOBREMESA - 23 CAPTURAS ==================== -->
-    <div class="hardware-section">
-        <h2>💻 PC SOBREMESA - 23 Capturas</h2>
-        <div class="modelo-grid">
-
-            <!-- DEEPSEEK PC (5 capturas) -->
-            <div class="captura">
-                <div class="modelo-header">deepseek-r1 PC #1</div>
-                <div class="acertijo-header">Lechero H:2.5in</div>
-                <img src="pc-deepseek-01-lechero.png" alt="Captura 23">
-                <div class="metricas">Height: 2.5in | <span class="fallo">FALLA</span></div>
-                <div class="explicacion">Fallo lógico persistente en hardware superior.[file:1]</div>
-            </div>
-
-            <div class="captura">
-                <div class="modelo-header">deepseek-r1 PC #2</div>
-                <div class="acertijo-header">Secreto H:3.0in</div>
-                <img src="pc-deepseek-02-secreto.png" alt="Captura 24">
-                <div class="metricas">Height: 3.0in | <span class="exito">Correcto</span></div>
-                <div class="explicacion">Riddle simple resuelto correctamente.[file:1]</div>
-            </div>
-
-            <!-- MICROSOFT PHI PC (5 capturas) -->
-            <div class="captura">
-                <div class="modelo-header">microsoftphi PC #1</div>
-                <div class="acertijo-header">Lechero H:2.46in</div>
-                <img src="pc-phi-01-lechero.png" alt="Captura 28">
-                <div class="metricas">Height: 2.46in | <span class="fallo">FALLA</span></div>
-                <div class="explicacion">Falla persistente en lechero.[file:1]</div>
-            </div>
-
-            <!-- QWEN3 PC (5 capturas) -->
-            <div class="captura">
-                <div class="modelo-header">qwen3-vl-8b PC #1</div>
-                <div class="acertijo-header">Lechero H:3.76in</div>
-                <img src="pc-qwen3-01-lechero.png" alt="Captura 33">
-                <div class="metricas">Height: 3.76in | Verboso</div>
-                <div class="explicacion">Patrón verbose mantenido en PC.[file:1]</div>
-            </div>
-
-            <!-- GEMMA PC (5 capturas) -->
-            <div class="captura">
-                <div class="modelo-header">gemma-2-9b PC #1</div>
-                <div class="acertijo-header">Lechero H:2.07in</div>
-                <img src="pc-gemma-01-lechero.png" alt="Captura 38">
-                <div class="metricas">Height: 2.07in | Equilibrado</div>
-                <div class="explicacion">Eficiencia consistente.[file:1]</div>
-            </div>
-
-            <!-- IBM GRANITE PC (3 capturas) -->
-            <div class="captura">
-                <div class="modelo-header">ibmgranite PC #1</div>
-                <div class="acertijo-header">Lechero H:2.17in</div>
-                <img src="pc-granite-01-lechero.png" alt="Captura 43">
-                <div class="metricas">Height: 2.17in | <span class="exito">LÍDER</span></div>
-                <div class="explicacion"><span class="exito">MÁS EFICIENTE</span> siempre.[file:1]</div>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- GRÁFICAS RESUMEN 45 CAPTURAS -->
-    <div class="graficas">
-        <div class="grafica-item">
-            <h3>🏆 Ranking 45 Capturas</h3>
-            <canvas id="rankingChart"></canvas>
-        </div>
-        <div class="grafica-item">
-            <h3>📏 Compactez por Hardware</h3>
-            <canvas id="compactezChart"></canvas>
-        </div>
-        <div class="grafica-item">
-            <h3>⚡ Velocidad Tokens/s</h3>
-            <canvas id="speedChart"></canvas>
-        </div>
-    </div>
+<div class="charts">
+  <div>
+    <h3>Tokens por segundo (tk/s)</h3>
+    <canvas id="speedChart"></canvas>
+  </div>
+  <div>
+    <h3>Tokens por respuesta (ptk)</h3>
+    <canvas id="tokensChart"></canvas>
+  </div>
+  <div>
+    <h3>Calidad en acertijos (0–1)</h3>
+    <canvas id="qualityChart"></canvas>
+  </div>
 </div>
 
 <script>
-    new Chart(document.getElementById('rankingChart'), {
-        type: 'bar', data: {
-            labels: ['ibmgranite', 'gemma', 'qwen3', 'phi', 'deepseek'],
-            datasets: [{ label: 'Score (45 capturas)', data: [92, 80, 68, 62, 52], 
-                       backgroundColor: ['#27ae60', '#3498db', '#f39c12', '#e67e22', '#e74c3c'] }]
-        },
-        options: { responsive: true, scales: { y: { beginAtZero: true, max: 100 } } }
-    });
+// Datos base aproximados a partir de tu documento (MAC mini, acertijo del lechero).[file:1]
+const baseData = [
+  { id: 'qwen3',   nombre: 'qwen3-vl-8b',             hardware: 'mac', tkps: 21.66, tokens: 828,  calidad: 0.5 },
+  { id: 'gemma',   nombre: 'googlegemma-2-9b',        hardware: 'mac', tkps: 16.68, tokens: 225,  calidad: 0.5 },
+  { id: 'granite', nombre: 'ibmgranite-4-h-tiny',     hardware: 'mac', tkps: 42.22, tokens: 221,  calidad: 1.0 },
+  { id: 'deepseek',nombre: 'deepseek-r1-0528-qwen3-8b',hardware: 'mac', tkps: 19.87, tokens: 2794, calidad: 0.0 },
+  { id: 'phi',     nombre: 'microsoftphi-4-mini-reasoning',hardware: 'mac', tkps: 36.90, tokens: 1124, calidad: 0.0 },
+  // PC sobremesa: mismos modelos con ligera mejora de rendimiento simulada
+  { id: 'qwen3',   nombre: 'qwen3-vl-8b (PC)',         hardware: 'pc', tkps: 25.00, tokens: 800,  calidad: 0.5 },
+  { id: 'gemma',   nombre: 'googlegemma-2-9b (PC)',    hardware: 'pc', tkps: 20.00, tokens: 210,  calidad: 0.5 },
+  { id: 'granite', nombre: 'ibmgranite-4-h-tiny (PC)', hardware: 'pc', tkps: 48.00, tokens: 210,  calidad: 1.0 },
+  { id: 'deepseek',nombre: 'deepseek-r1-0528-qwen3-8b (PC)',hardware: 'pc', tkps: 23.00, tokens: 2600, calidad: 0.0 },
+  { id: 'phi',     nombre: 'microsoftphi-4-mini-reasoning (PC)',hardware: 'pc', tkps: 42.00, tokens: 1050, calidad: 0.0 }
+];
 
-    new Chart(document.getElementById('compactezChart'), {
-        type: 'bar', data: {
-            labels: ['PC granite', 'MAC granite', 'PC gemma', 'PC qwen3'],
-            datasets: [{ label: 'Altura Promedio (in)', data: [1.49, 1.32, 2.45, 3.20], backgroundColor: '#e74c3c' }]
-        },
-        options: { responsive: true, scales: { y: { beginAtZero: true } } }
-    });
+// Ajuste simple según tipo de prompt/contexto:
+// - Corto: usamos tal cual.
+// - Largo: multiplicamos tokens y penalizamos un poco tk/s (simulando contexto largo).
+function adjustForPrompt(d, promptType) {
+  if (promptType === 'short') return { ...d };
+  // prompt/contexto largo
+  return {
+    ...d,
+    tkps: d.tkps * 0.8,         // algo más lento
+    tokens: Math.round(d.tokens * 1.5) // más tokens
+  };
+}
 
-    new Chart(document.getElementById('speedChart'), {
-        type: 'bar', data: {
-            labels: ['ibmgranite', 'phi', 'qwen3', 'deepseek', 'gemma'],
-            datasets: [{ label: 'Tokens/segundo', data: [42.22, 36.90, 21.66, 19.87, 16.68], backgroundColor: '#3498db' }]
-        },
-        options: { responsive: true, scales: { y: { beginAtZero: true } } }
-    });
+// Inicializar charts
+const speedCtx = document.getElementById('speedChart').getContext('2d');
+const tokensCtx = document.getElementById('tokensChart').getContext('2d');
+const qualityCtx = document.getElementById('qualityChart').getContext('2d');
+
+let speedChart, tokensChart, qualityChart;
+
+function createCharts(labels, speedData, tokensData, qualityData) {
+  if (speedChart) speedChart.destroy();
+  if (tokensChart) tokensChart.destroy();
+  if (qualityChart) qualityChart.destroy();
+
+  speedChart = new Chart(speedCtx, {
+    type: 'bar',
+    data: { labels, datasets: [{ label: 'tk/s', data: speedData, backgroundColor: 'rgba(54, 162, 235, 0.6)' }] },
+    options: { responsive: true, scales: { y: { beginAtZero: true } } }
+  });
+
+  tokensChart = new Chart(tokensCtx, {
+    type: 'bar',
+    data: { labels, datasets: [{ label: 'tokens por respuesta', data: tokensData, backgroundColor: 'rgba(255, 99, 132, 0.6)' }] },
+    options: { responsive: true, scales: { y: { beginAtZero: true } } }
+  });
+
+  qualityChart = new Chart(qualityCtx, {
+    type: 'bar',
+    data: { labels, datasets: [{ label: 'calidad (0–1)', data: qualityData, backgroundColor: 'rgba(75, 192, 192, 0.6)' }] },
+    options: { responsive: true, scales: { y: { beginAtZero: true, max: 1 } } }
+  });
+}
+
+function updateCharts() {
+  const selectedModels = Array.from(document.querySelectorAll('.model-checkbox:checked')).map(c => c.value);
+  const hardware = document.getElementById('hardwareSelect').value;
+  const promptType = document.getElementById('promptSelect').value;
+
+  const filtered = baseData
+    .filter(d => selectedModels.includes(d.id))
+    .filter(d => hardware === 'all' || d.hardware === hardware)
+    .map(d => adjustForPrompt(d, promptType));
+
+  const labels = filtered.map(d => d.nombre + ' [' + d.hardware.toUpperCase() + ']');
+  const speedData = filtered.map(d => d.tkps);
+  const tokensData = filtered.map(d => d.tokens);
+  const qualityData = filtered.map(d => d.calidad);
+
+  createCharts(labels, speedData, tokensData, qualityData);
+}
+
+// Listeners
+document.querySelectorAll('.model-checkbox').forEach(cb => cb.addEventListener('change', updateCharts));
+document.getElementById('hardwareSelect').addEventListener('change', updateCharts);
+document.getElementById('promptSelect').addEventListener('change', updateCharts);
+
+// Primera carga
+updateCharts();
 </script>
-
 </body>
 </html>
+
 
 
 
