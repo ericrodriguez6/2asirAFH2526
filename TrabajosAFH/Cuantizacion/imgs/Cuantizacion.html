@@ -2,170 +2,152 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Práctica de Cuantización de Modelos LLM</title>
+  <title>Práctica de Cuantización con llama.cpp</title>
   <style>
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: system-ui, -apple-system, sans-serif;
       margin: 0;
       padding: 2rem;
-      background-color: #0b1020;
-      color: #f4f4f4;
+      background-color: #0d1117;
+      color: #c9d1d9;
     }
-    h1, h2 {
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    h1 {
       text-align: center;
+      color: #58a6ff;
+      border-bottom: 1px solid #30363d;
+      padding-bottom: 1rem;
     }
     .step {
-      border: 1px solid #444;
-      border-radius: 8px;
-      padding: 1rem 1.5rem;
-      margin: 1.5rem auto;
-      max-width: 960px;
-      background: #151a2a;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      margin-bottom: 2rem;
+      padding: 1.5rem;
     }
     .step h2 {
       margin-top: 0;
-      font-size: 1.2rem;
-      color: #ffe28a;
+      color: #79c0ff;
+      font-size: 1.3rem;
     }
     .step p {
-      line-height: 1.5;
+      line-height: 1.6;
+      margin-bottom: 1rem;
     }
-    .step img {
+    img {
       display: block;
-      max-width: 100%;
+      width: 100%;
       height: auto;
-      margin: 0.75rem auto;
-      border-radius: 6px;
-      border: 1px solid #333;
+      border-radius: 4px;
+      border: 1px solid #30363d;
     }
     .caption {
-      font-size: 0.9rem;
-      color: #c7c7c7;
+      font-size: 0.85rem;
+      color: #8b949e;
       text-align: center;
-      margin-top: 0.25rem;
+      margin-top: 0.5rem;
+      font-style: italic;
     }
-    .small-note {
-      font-size: 0.8rem;
-      text-align: center;
-      color: #aaaaaa;
+    code {
+      background: #232831;
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.9em;
     }
   </style>
 </head>
 <body>
 
-  <h1>Memoria de Práctica:<br>Fusión y Cuantización de Modelos LLM</h1>
-  <p class="small-note">
-    Proceso desde la fusión de adaptadores LoRA hasta la conversión a GGUF y cuantización en 4 bits.
-  </p>
+<div class="container">
+  <h1>Optimización de LLMs: Fusión y Cuantización</h1>
 
-  <!-- Paso 1 -->
-  <section class="step">
-    <h2>Paso 1 – Fusión de adaptadores LoRA</h2>
-    <p>
-      Comienzo fusionando los pesos entrenados (LoRA) con el modelo base usando de>mlx_lm.fuse</code>. 
-      Esto genera un modelo completo listo para ser convertido.
-    </p>
-    <!-- 16.29.04 (3) -->
-    <img src="WhatsApp%20Image%202026-02-06%20at%2016.29.04%20(3).jpeg" alt="Fusión del modelo con mlx_lm.fuse">
-    <div class="caption">Ejecución del comando de fusión para integrar los pesos LoRA.</div>
-  </section>
+  <!-- PASO 1 -->
+  <div class="step">
+    <h2>1. Fusión del Modelo (MLX)</h2>
+    <p>El primer paso consiste en fusionar los adaptadores LoRA entrenados con el modelo base. Usamos el comando de>mlx_lm.fuse</code> para integrar los pesos y exportar el modelo completo (fused) que luego convertiremos.</p>
+    <!-- Original: WhatsApp Image 2026-02-06 at 16.29.04 (3).jpeg -->
+    <img src="WhatsApp%20Image%202026-02-06%20at%2016.29.04%20(3).jpeg" alt="Fusión del modelo">
+    <div class="caption">Ejecución de mlx_lm.fuse para unir adaptadores y modelo base.</div>
+  </div>
 
-  <!-- Paso 2 -->
-  <section class="step">
-    <h2>Paso 2 – Instalación de llama.cpp</h2>
-    <p>
-      Para trabajar con el formato GGUF necesito de>llama.cpp</code>. 
-      Clono el repositorio oficial e instalo los requerimientos de Python.
-    </p>
-    <!-- 16.29.04 (1) -->
-    <img src="WhatsApp%20Image%202026-02-06%20at%2016.29.04%20(1).jpeg" alt="Clonado e instalación de llama.cpp">
-    <div class="caption">Preparación del entorno de llama.cpp.</div>
-  </section>
+  <!-- PASO 2 -->
+  <div class="step">
+    <h2>2. Preparación del Entorno llama.cpp</h2>
+    <p>Clonamos el repositorio de de>llama.cpp</code> e instalamos las dependencias necesarias. Esto nos permitirá ejecutar los scripts de conversión a GGUF y usar las herramientas de cuantización.</p>
+    <!-- Original: WhatsApp Image 2026-02-06 at 16.29.04 (1).jpeg -->
+    <img src="WhatsApp%20Image%202026-02-06%20at%2016.29.04%20(1).jpeg" alt="Instalación llama.cpp">
+    <div class="caption">Setup inicial del repositorio llama.cpp.</div>
+  </div>
 
-  <!-- Paso 3 -->
-  <section class="step">
-    <h2>Paso 3 – Conversión a formato GGUF (FP16)</h2>
-    <p>
-      Con el script de>convert_hf_to_gguf.py</code> convierto el modelo fusionado 
-      al formato GGUF con precisión completa. El archivo resultante pesa 1.2 GB.
-    </p>
-    <!-- 16.29.03 -->
-    <img src="WhatsApp%20Image%202026-02-06%20at%2016.29.03.jpeg" alt="Conversión de HF a GGUF">
-    <div class="caption">Conversión del modelo fusionado a GGUF sin comprimir.</div>
-  </section>
+  <!-- PASO 3 -->
+  <div class="step">
+    <h2>3. Conversión a formato GGUF (FP16)</h2>
+    <p>Utilizamos el script de>convert_hf_to_gguf.py</code> para transformar nuestro modelo fusionado (formato HuggingFace) al formato GGUF estandarizado. En este punto, el modelo mantiene una precisión alta (probablemente FP16) y un tamaño grande.</p>
+    <!-- Original: WhatsApp Image 2026-02-06 at 16.29.03.jpeg -->
+    <img src="WhatsApp%20Image%202026-02-06%20at%2016.29.03.jpeg" alt="Conversión a GGUF">
+    <div class="caption">Conversión del modelo fused a formato GGUF sin comprimir.</div>
+  </div>
 
-  <!-- Paso 4 -->
-  <section class="step">
-    <h2>Paso 4 – Cuantización a 4 bits (Q4_K_M)</h2>
-    <p>
-      Aplico la cuantización usando de>llama-quantize</code>. Selecciono el método 
-      de>q4_k_m</code>, reduciendo el tamaño a 469 MB.
-    </p>
-    <!-- 16.29.04 (2) -->
-    <img src="WhatsApp%20Image%202026-02-06%20at%2016.29.04%20(2).jpeg" alt="Proceso de cuantización a Q4_K_M">
-    <div class="caption">Log del proceso de cuantización reduciendo los tensores.</div>
-  </section>
+  <!-- PASO 4 -->
+  <div class="step">
+    <h2>4. Cuantización (Compresión a 4 bits)</h2>
+    <p>Este es el paso crítico. Usamos la herramienta binaria de>llama-quantize</code> para reducir la precisión de los pesos del modelo a 4 bits (método de>q4_k_m</code>). El log muestra cómo procesa cada bloque del modelo reduciendo su tamaño drásticamente.</p>
+    <!-- Original: WhatsApp Image 2026-02-06 at 16.29.04 (2).jpeg -->
+    <img src="WhatsApp%20Image%202026-02-06%20at%2016.29.04%20(2).jpeg" alt="Proceso de Cuantización">
+    <div class="caption">Log de ejecución de llama-quantize reduciendo el modelo.</div>
+  </div>
 
-  <!-- Paso 5 -->
-  <section class="step">
-    <h2>Paso 5 – Comparación de tamaños</h2>
-    <p>
-      Verifico la diferencia: el original FP16 ocupa 1.2 GB, mientras que la versión 
-      cuantizada de>q4_k_m</code> ocupa solo 469 MB.
-    </p>
-    <!-- 16.29.05 (1) -->
-    <img src="WhatsApp%20Image%202026-02-06%20at%2016.29.05%20(1).jpeg" alt="Comparación de tamaño de archivos GGUF">
-    <div class="caption">Diferencia de peso entre el modelo FP16 y el cuantizado Q4.</div>
-  </section>
+  <!-- PASO 5 -->
+  <div class="step">
+    <h2>5. Verificación de Tamaños</h2>
+    <p>Comparamos los archivos resultantes. Se observa que el modelo original (fp16) ocupa <strong>1.2 GB</strong>, mientras que la versión cuantizada (q4_k_m) se ha reducido a solo <strong>469 MB</strong>, logrando una gran compresión.</p>
+    <!-- Original: WhatsApp Image 2026-02-06 at 16.29.05 (1).jpeg -->
+    <img src="WhatsApp%20Image%202026-02-06%20at%2016.29.05%20(1).jpeg" alt="Comparación de tamaños">
+    <div class="caption">Listado de archivos mostrando la reducción de tamaño.</div>
+  </div>
 
-  <!-- Paso 6 -->
-  <section class="step">
-    <h2>Paso 6 – Prueba del modelo original (Referencia)</h2>
-    <p>
-      Lanzo el modelo original en de>llama-cli</code> para tener una referencia de calidad.
-    </p>
-    <!-- 16.29.05 (3) -->
-    <img src="WhatsApp%20Image%202026-02-06%20at%2016.29.05%20(3).jpeg" alt="Prueba de inferencia con modelo original">
-    <div class="caption">Inferencia de prueba con el modelo base.</div>
-  </section>
+  <!-- PASO 6 -->
+  <div class="step">
+    <h2>6. Prueba de Inferencia: Modelo Original</h2>
+    <p>Ejecutamos el modelo original (no cuantizado) con de>llama-cli</code> para establecer una línea base. Le pedimos una definición corta ("Explica qué es un servidor DNS") para ver su velocidad y calidad.</p>
+    <!-- Original: WhatsApp Image 2026-02-06 at 16.29.05 (3).jpeg -->
+    <img src="WhatsApp%20Image%202026-02-06%20at%2016.29.05%20(3).jpeg" alt="Test Modelo Original">
+    <div class="caption">Inferencia con el modelo FP16 (más lento/pesado).</div>
+  </div>
 
-  <!-- Paso 7 -->
-  <section class="step">
-    <h2>Paso 7 – Prueba del modelo cuantizado</h2>
-    <p>
-      Ejecuto el modelo comprimido (de>q4_k_m.gguf</code>). Responde correctamente 
-      y más rápido a la pregunta sobre el servidor DNS.
-    </p>
-    <!-- 16.29.04 -->
-    <img src="WhatsApp%20Image%202026-02-06%20at%2016.29.04.jpeg" alt="Prueba de inferencia con modelo cuantizado">
-    <div class="caption">El modelo cuantizado responde correctamente ocupando menos memoria.</div>
-  </section>
+  <!-- PASO 7 -->
+  <div class="step">
+    <h2>7. Prueba de Inferencia: Modelo Cuantizado</h2>
+    <p>Realizamos la misma prueba con el modelo comprimido (de>q4_k_m</code>). El modelo responde correctamente a la pregunta sobre DNS, demostrando que la pérdida de calidad es mínima para instrucciones simples.</p>
+    <!-- Original: WhatsApp Image 2026-02-06 at 16.29.04.jpeg -->
+    <img src="WhatsApp%20Image%202026-02-06%20at%2016.29.04.jpeg" alt="Test Modelo Cuantizado">
+    <div class="caption">Inferencia con el modelo Q4 (más rápido/ligero).</div>
+  </div>
 
-  <!-- Paso 8 -->
-  <section class="step">
-    <h2>Paso 8 – Comparativa de respuestas detallada</h2>
-    <p>
-      Prueba extensa sobre "administración de sistemas" con el modelo original.
-    </p>
-    <!-- 16.29.05 (2) -->
-    <img src="WhatsApp%20Image%202026-02-06%20at%2016.29.05%20(2).jpeg" alt="Respuesta detallada modelo original">
-    <div class="caption">Generación de texto largo con el modelo base.</div>
-  </section>
+  <!-- PASO 8 -->
+  <div class="step">
+    <h2>8. Generación de Texto Largo (Original)</h2>
+    <p>Sometemos al modelo original a una prueba más exigente: explicar la "administración de sistemas". Genera una respuesta detallada y estructurada por puntos.</p>
+    <!-- Original: WhatsApp Image 2026-02-06 at 16.29.05 (2).jpeg -->
+    <img src="WhatsApp%20Image%202026-02-06%20at%2016.29.05%20(2).jpeg" alt="Texto Largo Original">
+    <div class="caption">Respuesta compleja generada por el modelo base.</div>
+  </div>
 
-  <!-- Paso 9 -->
-  <section class="step">
-    <h2>Paso 9 – Respuesta detallada del modelo cuantizado</h2>
-    <p>
-      El modelo cuantizado genera la misma explicación técnica, confirmando que la 
-      pérdida de precisión es aceptable.
-    </p>
-    <!-- 16.29.05 -->
-    <img src="WhatsApp%20Image%202026-02-06%20at%2016.29.05.jpeg" alt="Respuesta detallada modelo cuantizado">
-    <div class="caption">El modelo comprimido mantiene la coherencia.</div>
-  </section>
+  <!-- PASO 9 -->
+  <div class="step">
+    <h2>9. Generación de Texto Largo (Cuantizado)</h2>
+    <p>Finalmente, pedimos lo mismo al modelo cuantizado. La respuesta es igualmente detallada y coherente, confirmando que la cuantización a 4 bits es una estrategia efectiva para ahorrar recursos sin sacrificar demasiado conocimiento.</p>
+    <!-- Original: WhatsApp Image 2026-02-06 at 16.29.05.jpeg -->
+    <img src="WhatsApp%20Image%202026-02-06%20at%2016.29.05.jpeg" alt="Texto Largo Cuantizado">
+    <div class="caption">Respuesta compleja generada por el modelo comprimido.</div>
+  </div>
+
+</div>
 
 </body>
 </html>
-
 
