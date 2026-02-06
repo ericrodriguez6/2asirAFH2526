@@ -63,11 +63,11 @@
   <section class="step">
     <h2>Paso 1 – Fusión de adaptadores LoRA</h2>
     <p>
-      Comienzo fusionando los pesos entrenados (LoRA) con el modelo base usando <code>mlx_lm.fuse</code>. 
-      Esto genera un modelo completo en formato local (<code>gemma-asir-fused</code>) que integra el conocimiento adquirido, 
-      listo para ser convertido o ejecutado sin depender de adaptadores externos.
+      Comienzo fusionando los pesos entrenados (LoRA) con el modelo base usando de>mlx_lm.fuse</code>. 
+      Esto genera un modelo completo listo para ser convertido.
     </p>
-    <img src="WhatsApp-Image-2026-02-06-at-16.29.04-3.jpg" alt="Fusión del modelo con mlx_lm.fuse">
+    <!-- 16.29.04 (3) -->
+    <img src="WhatsApp%20Image%202026-02-06%20at%2016.29.04%20(3).jpeg" alt="Fusión del modelo con mlx_lm.fuse">
     <div class="caption">Ejecución del comando de fusión para integrar los pesos LoRA.</div>
   </section>
 
@@ -75,47 +75,47 @@
   <section class="step">
     <h2>Paso 2 – Instalación de llama.cpp</h2>
     <p>
-      Para trabajar con el formato GGUF necesito <code>llama.cpp</code>. 
-      Clono el repositorio oficial, accedo a la carpeta e instalo los requerimientos de Python 
-      necesarios para los scripts de conversión.
+      Para trabajar con el formato GGUF necesito de>llama.cpp</code>. 
+      Clono el repositorio oficial e instalo los requerimientos de Python.
     </p>
-    <img src="WhatsApp-Image-2026-02-06-at-16.29.04-1.jpg" alt="Clonado e instalación de llama.cpp">
-    <div class="caption">Preparación del entorno de llama.cpp para la conversión de formatos.</div>
+    <!-- 16.29.04 (1) -->
+    <img src="WhatsApp%20Image%202026-02-06%20at%2016.29.04%20(1).jpeg" alt="Clonado e instalación de llama.cpp">
+    <div class="caption">Preparación del entorno de llama.cpp.</div>
   </section>
 
   <!-- Paso 3 -->
   <section class="step">
     <h2>Paso 3 – Conversión a formato GGUF (FP16)</h2>
     <p>
-      Con el script <code>convert_hf_to_gguf.py</code> convierto el modelo fusionado (en formato HuggingFace/safetensors) 
-      al formato GGUF con precisión completa (FP16 o similar). El resultado es un archivo <code>.gguf</code> 
-      bastante pesado (aprox 1.2 GB), que servirá de base para la cuantización.
+      Con el script de>convert_hf_to_gguf.py</code> convierto el modelo fusionado 
+      al formato GGUF con precisión completa. El archivo resultante pesa 1.2 GB.
     </p>
-    <img src="WhatsApp-Image-2026-02-06-at-16.29.03.jpg" alt="Conversión de HF a GGUF">
-    <div class="caption">Conversión del modelo fusionado a un archivo GGUF inicial sin comprimir.</div>
+    <!-- 16.29.03 -->
+    <img src="WhatsApp%20Image%202026-02-06%20at%2016.29.03.jpeg" alt="Conversión de HF a GGUF">
+    <div class="caption">Conversión del modelo fusionado a GGUF sin comprimir.</div>
   </section>
 
   <!-- Paso 4 -->
   <section class="step">
     <h2>Paso 4 – Cuantización a 4 bits (Q4_K_M)</h2>
     <p>
-      Ahora aplico la cuantización real usando el binario <code>llama-quantize</code>. 
-      Selecciono el método <code>q4_k_m</code> (4-bit medium), que reduce drásticamente el tamaño del modelo 
-      (de 1.2 GB a unos 469 MB) manteniendo una calidad razonable.
+      Aplico la cuantización usando de>llama-quantize</code>. Selecciono el método 
+      de>q4_k_m</code>, reduciendo el tamaño a 469 MB.
     </p>
-    <img src="WhatsApp-Image-2026-02-06-at-16.29.04-2.jpg" alt="Proceso de cuantización a Q4_K_M">
-    <div class="caption">Log del proceso de cuantización reduciendo los tensores a 4 bits.</div>
+    <!-- 16.29.04 (2) -->
+    <img src="WhatsApp%20Image%202026-02-06%20at%2016.29.04%20(2).jpeg" alt="Proceso de cuantización a Q4_K_M">
+    <div class="caption">Log del proceso de cuantización reduciendo los tensores.</div>
   </section>
 
   <!-- Paso 5 -->
   <section class="step">
     <h2>Paso 5 – Comparación de tamaños</h2>
     <p>
-      Verifico el resultado listando los archivos. Se observa claramente la diferencia: 
-      el modelo original en FP16 ocupa 1.2 GB, mientras que la versión cuantizada <code>q4_k_m</code> 
-      ocupa solo 469 MB, lo que facilita su ejecución en máquinas con menos memoria.
+      Verifico la diferencia: el original FP16 ocupa 1.2 GB, mientras que la versión 
+      cuantizada de>q4_k_m</code> ocupa solo 469 MB.
     </p>
-    <img src="WhatsApp-Image-2026-02-06-at-16.29.05-1.jpg" alt="Comparación de tamaño de archivos GGUF">
+    <!-- 16.29.05 (1) -->
+    <img src="WhatsApp%20Image%202026-02-06%20at%2016.29.05%20(1).jpeg" alt="Comparación de tamaño de archivos GGUF">
     <div class="caption">Diferencia de peso entre el modelo FP16 y el cuantizado Q4.</div>
   </section>
 
@@ -123,22 +123,22 @@
   <section class="step">
     <h2>Paso 6 – Prueba del modelo original (Referencia)</h2>
     <p>
-      Lanzo el modelo original (o una versión de alta precisión) en <code>llama-cli</code> para tener una referencia. 
-      Le pregunto "¿Qué es un servidor DNS?" y observo la calidad y velocidad de la respuesta antes de probar el comprimido.
+      Lanzo el modelo original en de>llama-cli</code> para tener una referencia de calidad.
     </p>
-    <img src="WhatsApp-Image-2026-02-06-at-16.29.05-3.jpg" alt="Prueba de inferencia con modelo original">
-    <div class="caption">Inferencia de prueba para establecer una línea base de calidad.</div>
+    <!-- 16.29.05 (3) -->
+    <img src="WhatsApp%20Image%202026-02-06%20at%2016.29.05%20(3).jpeg" alt="Prueba de inferencia con modelo original">
+    <div class="caption">Inferencia de prueba con el modelo base.</div>
   </section>
 
   <!-- Paso 7 -->
   <section class="step">
     <h2>Paso 7 – Prueba del modelo cuantizado</h2>
     <p>
-      Ejecuto ahora el modelo comprimido (<code>qwen2.5-0.5b-instruct-q4_k_m.gguf</code>). 
-      Ante la misma pregunta sobre el servidor DNS, el modelo responde correctamente y de forma más rápida 
-      (mayor tokens/segundo) gracias a su menor tamaño, demostrando la eficiencia de la cuantización.
+      Ejecuto el modelo comprimido (de>q4_k_m.gguf</code>). Responde correctamente 
+      y más rápido a la pregunta sobre el servidor DNS.
     </p>
-    <img src="WhatsApp-Image-2026-02-06-at-16.29.04.jpg" alt="Prueba de inferencia con modelo cuantizado">
+    <!-- 16.29.04 -->
+    <img src="WhatsApp%20Image%202026-02-06%20at%2016.29.04.jpeg" alt="Prueba de inferencia con modelo cuantizado">
     <div class="caption">El modelo cuantizado responde correctamente ocupando menos memoria.</div>
   </section>
 
@@ -146,11 +146,10 @@
   <section class="step">
     <h2>Paso 8 – Comparativa de respuestas detallada</h2>
     <p>
-      Hago una prueba más extensa pidiendo una explicación sobre "administración de sistemas". 
-      A la izquierda (o arriba) se ve la respuesta del modelo original, más detallada pero lenta. 
-      A continuación, pruebo el cuantizado.
+      Prueba extensa sobre "administración de sistemas" con el modelo original.
     </p>
-    <img src="WhatsApp-Image-2026-02-06-at-16.29.05-2.jpg" alt="Respuesta detallada modelo original">
+    <!-- 16.29.05 (2) -->
+    <img src="WhatsApp%20Image%202026-02-06%20at%2016.29.05%20(2).jpeg" alt="Respuesta detallada modelo original">
     <div class="caption">Generación de texto largo con el modelo base.</div>
   </section>
 
@@ -158,14 +157,15 @@
   <section class="step">
     <h2>Paso 9 – Respuesta detallada del modelo cuantizado</h2>
     <p>
-      Finalmente, el modelo cuantizado genera la misma explicación. Aunque puede haber sutiles diferencias 
-      en la redacción, el contenido técnico se mantiene sólido, confirmando que la pérdida de precisión (4 bits) 
-      es aceptable para este caso de uso.
+      El modelo cuantizado genera la misma explicación técnica, confirmando que la 
+      pérdida de precisión es aceptable.
     </p>
-    <img src="WhatsApp-Image-2026-02-06-at-16.29.05.jpg" alt="Respuesta detallada modelo cuantizado">
-    <div class="caption">El modelo comprimido mantiene la coherencia en respuestas complejas.</div>
+    <!-- 16.29.05 -->
+    <img src="WhatsApp%20Image%202026-02-06%20at%2016.29.05.jpeg" alt="Respuesta detallada modelo cuantizado">
+    <div class="caption">El modelo comprimido mantiene la coherencia.</div>
   </section>
 
 </body>
 </html>
+
 
