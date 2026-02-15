@@ -126,6 +126,17 @@
             border-radius: 3px;
             font-weight: bold;
         }
+        
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
     </style>
 </head>
 <body>
@@ -136,53 +147,106 @@
         </header>
         
         <div class="content">
-            <!-- Sección 1 -->
+            <!-- Sección 1: Imagen 1 -->
             <div class="section">
-                <span class="badge">Paso 1</span>
-                <h2>Inicialización y Carga del Modelo Profesor</h2>
+                <span class="badge">Captura 1</span>
+                <h2>Ejecución del Script de Destilación e Inicialización</h2>
                 
                 <div class="explanation">
-                    <p><strong>🎯 Objetivo:</strong> Cargar el modelo de lenguaje grande (LLM) que actuará como "profesor" en el proceso de destilación.</p>
+                    <p><strong>📝 Descripción:</strong></p>
+                    <p>Esta captura muestra el inicio del proceso de destilación ejecutando el script Python <code>medir_kl.py</code> desde la terminal. El sistema está en modo de entorno virtual (venv) y comienza el proceso de carga del modelo profesor.</p>
                     
-                    <p><strong>📋 Proceso observado:</strong></p>
+                    <p><strong>🔍 Detalles del proceso:</strong></p>
                     <ul>
-                        <li><strong>Modelo Profesor:</strong> Qwen/Qwen2.5-0.5B-Instruct (0.5B parámetros)</li>
-                        <li><strong>Carga del tokenizador:</strong> Configuración JSON con 100% de progreso</li>
-                        <li><strong>Vocabulario:</strong> 2,7MB con 11.906/11.906 tokens cargados</li>
-                        <li><strong>Archivos adicionales:</strong> merges.txt (1.4MB) y special_tokens_map.json cargados</li>
-                        <li><strong>Model safetensors:</strong> 100% cargado (494MB)</li>
+                        <li><strong>Comando ejecutado:</strong> <code>python medir_kl.py</code></li>
+                        <li><strong>Estado inicial:</strong> "MPS" (Metal Performance Shaders - aceleración GPU en macOS)</li>
+                        <li><strong>Fase 1 - Carga del Tokenizador:</strong>
+                            <ul style="margin-top: 8px;">
+                                <li>config.json: 100% (662/662 bytes, velocidad ~1920B/s)</li>
+                                <li>vocab.json: 2.7MB (2.78/2.78 MB, velocidad 11.9MB/s)</li>
+                                <li>merges.txt: 1.4MB (1.36/1.36 MB, velocidad 11.9MB/s)</li>
+                                <li>tokenizer.json: 7.0MB (6.99/6.99 MB, velocidad 19.9MB/s)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Fase 2 - Carga del Modelo Profesor:</strong>
+                            <ul style="margin-top: 8px;">
+                                <li>Modelo: Qwen/Qwen2.5-0.5B-...</li>
+                                <li>model.safetensors: 100% (291/291 archivos cargados)</li>
+                                <li>Peso total: ~494MB cargados</li>
+                                <li>Estado: "Materializing parameterized model..."</li>
+                            </ul>
+                        </li>
+                        <li><strong>Fase 3 - Carga del Modelo Estudiante:</strong>
+                            <ul style="margin-top: 8px;">
+                                <li>Mismo proceso de carga</li>
+                                <li>Modelo idéntico al profesor para comparación</li>
+                                <li>Barras de progreso muestran 643/661 y 291/291</li>
+                            </ul>
+                        </li>
                     </ul>
                     
-                    <p><strong>⚡ Resultado:</strong> Cálculo de KL para la inteligencia artificial iniciado. <span class="highlight">RESULTADO DIVERGENCIA KL: 1.706555</span></p>
+                    <p><strong>⚡ Resultado final:</strong></p>
+                    <p>El sistema completa la carga de ambos modelos e inicia el cálculo: <span class="highlight">"Calculando KL para: 'La inteligencia artificial es'..."</span></p>
+                    <p>Resultado obtenido: <span class="highlight">RESULTADO DIVERGENCIA KL: 1.706555</span></p>
                     
-                    <p>Este valor representa la divergencia inicial entre el profesor y el estudiante, indicando cuánto debe aprender el modelo estudiante.</p>
+                    <p><strong>💡 Interpretación:</strong></p>
+                    <p>Este valor de divergencia KL (Kullback-Leibler) de 1.706555 mide la diferencia entre las distribuciones de probabilidad del modelo profesor y estudiante. Un valor mayor indica mayor diferencia entre ambos modelos. Durante el proceso de destilación, este valor debería reducirse a medida que el estudiante aprende del profesor.</p>
                 </div>
                 
                 <div class="image-container">
-                    <img src="Imagen1Destilacion.png" alt="Imagen 1 - Inicialización">
+                    <img src="Imagen1Destilacion.png" alt="Imagen 1 - Ejecución e inicialización">
                 </div>
             </div>
             
-            <!-- Sección 2 -->
+            <!-- Sección 2: Imagen 2 -->
             <div class="section">
-                <span class="badge">Paso 2</span>
-                <h2>Instalación de Dependencias</h2>
+                <span class="badge">Captura 2</span>
+                <h2>Instalación de Dependencias del Proyecto</h2>
                 
                 <div class="explanation">
-                    <p><strong>🎯 Objetivo:</strong> Instalar las bibliotecas necesarias para realizar el entrenamiento del modelo estudiante.</p>
+                    <p><strong>📝 Descripción:</strong></p>
+                    <p>Esta captura muestra la instalación de las bibliotecas necesarias para ejecutar el proceso de destilación. Se ejecuta el comando <code>pip install torch transformers accelerate</code> para instalar las dependencias principales del proyecto.</p>
                     
                     <p><strong>📦 Paquetes instalados:</strong></p>
                     <ul>
-                        <li><strong>torch:</strong> Framework principal de deep learning (versión 2.1.0 con soporte para macOS 11.0 ARM64)</li>
-                        <li><strong>transformers:</strong> Biblioteca de Hugging Face para modelos transformer (5.1.0)</li>
-                        <li><strong>accelerate:</strong> Para acelerar el entrenamiento distribuido (1.2.0)</li>
-                        <li><strong>filelock, typing_extensions, sympy:</strong> Dependencias auxiliares</li>
-                        <li><strong>networkx, jinja2:</strong> Para gestión de grafos y templates</li>
+                        <li><strong>torch (PyTorch):</strong>
+                            <ul style="margin-top: 8px;">
+                                <li>Versión: 2.1.0 (optimizada para macOS 11.0+ ARM64)</li>
+                                <li>Tamaño descargado: 31 kB (usando caché)</li>
+                                <li>Framework principal de deep learning para operaciones tensoriales y redes neuronales</li>
+                            </ul>
+                        </li>
+                        <li><strong>transformers (Hugging Face):</strong>
+                            <ul style="margin-top: 8px;">
+                                <li>Versión: 5.1.0</li>
+                                <li>Tamaño descargado: 31 kB (usando caché)</li>
+                                <li>Biblioteca para trabajar con modelos transformer (BERT, GPT, T5, Qwen, etc.)</li>
+                                <li>Proporciona las clases para cargar y usar modelos pre-entrenados</li>
+                            </ul>
+                        </li>
+                        <li><strong>accelerate:</strong>
+                            <ul style="margin-top: 8px;">
+                                <li>Versión: 1.2.0</li>
+                                <li>Tamaño descargado: 19 kB (usando caché)</li>
+                                <li>Simplifica el entrenamiento en múltiples GPUs y entornos distribuidos</li>
+                            </ul>
+                        </li>
                     </ul>
                     
-                    <p><strong>✅ Estado:</strong> Todos los paquetes se instalaron correctamente usando caché local, optimizando el tiempo de configuración del entorno.</p>
+                    <p><strong>🔧 Dependencias adicionales instaladas automáticamente:</strong></p>
+                    <ul>
+                        <li><strong>filelock:</strong> 2.1 kB - Gestión de bloqueos de archivos</li>
+                        <li><strong>typing_extensions:</strong> 4.15.0 (6.3 kB) - Extensiones de tipado para Python</li>
+                        <li><strong>sympy:</strong> 1.13.1 (12 kB) - Biblioteca de matemáticas simbólicas</li>
+                        <li><strong>networkx:</strong> 3.6.1 (6.8 kB) - Análisis y manipulación de grafos</li>
+                        <li><strong>jinja2:</strong> 3.1.7 (2.9 kB) - Motor de plantillas para Python</li>
+                    </ul>
                     
-                    <p>Estas bibliotecas son esenciales para manejar los modelos transformer, realizar cálculos tensoriales eficientes y gestionar el proceso de destilación.</p>
+                    <p><strong>✅ Estado de la instalación:</strong></p>
+                    <p>Todos los paquetes se instalaron correctamente usando archivos en caché local, lo que aceleró significativamente el proceso. No hubo errores durante la instalación y el sistema está listo para ejecutar scripts de destilación de modelos.</p>
+                    
+                    <p><strong>💡 Nota técnica:</strong></p>
+                    <p>La instalación utiliza archivos en caché (<code>Using cached</code>), lo que indica que estos paquetes ya fueron descargados previamente en el sistema, optimizando el tiempo de configuración del entorno.</p>
                 </div>
                 
                 <div class="image-container">
@@ -190,68 +254,119 @@
                 </div>
             </div>
             
-            <!-- Sección 3 -->
+            <!-- Sección 3: Imagen 3 -->
             <div class="section">
-                <span class="badge">Paso 3</span>
-                <h2>Predicciones del Modelo Profesor y Estudiante</h2>
+                <span class="badge">Captura 3</span>
+                <h2>Comparación de Predicciones: Profesor vs Estudiante</h2>
                 
                 <div class="explanation">
-                    <p><strong>🎯 Objetivo:</strong> Comparar las predicciones Top-10 de ambos modelos para el prompt "La inteligencia artificial es..."</p>
+                    <p><strong>📝 Descripción:</strong></p>
+                    <p>Esta captura muestra la comparación de las predicciones Top-10 entre el modelo profesor y el modelo estudiante para el prompt <em>"La inteligencia artificial es"</em>. Los valores numéricos representan las probabilidades que cada modelo asigna a diferentes tokens (palabras) como continuación del texto.</p>
                     
-                    <p><strong>📊 Predicciones del Profesor (Qwen2.5-0.5B):</strong></p>
+                    <p><strong>📊 PREDICCIONES TOP-10 DEL PROFESOR (Qwen2.5-0.5B):</strong></p>
                     <ul>
-                        <li>1º: "un" (probabilidad: 0.300)</li>
-                        <li>2º: "una" (probabilidad: 0.297)</li>
-                        <li>3º: "la" (probabilidad: 0.075)</li>
-                        <li>4º: "una" (token alternativo: 0.053)</li>
-                        <li>Otros tokens: "el", "capa", "i", "La", "ia"</li>
+                        <li>1. "un" → 0.300 (30.0%)</li>
+                        <li>2. "una" → 0.297 (29.7%)</li>
+                        <li>3. "la" → 0.075 (7.5%)</li>
+                        <li>4. "una" → 0.053 (5.3%)</li>
+                        <li>5. "el" → 0.033 (3.3%)</li>
+                        <li>6. "capa" → 0.008 (0.8%)</li>
+                        <li>7. "i" → 0.007 (0.7%)</li>
+                        <li>8. "La" → 0.006 (0.6%)</li>
+                        <li>9. "ia" → 0.005 (0.5%)</li>
+                        <li>10. "ia" → 0.007 (0.7%)</li>
                     </ul>
                     
-                    <p><strong>🎓 Predicciones del Estudiante (modelo inicial):</strong></p>
+                    <p><strong>🎓 PREDICCIONES TOP-10 DEL ESTUDIANTE (modelo inicial):</strong></p>
                     <ul>
-                        <li>1º: "una" (probabilidad: 0.082)</li>
-                        <li>2º: "la" (probabilidad: 0.023)</li>
-                        <li>3º: "un" (probabilidad: 0.017)</li>
-                        <li>4º: "el" (probabilidad: 0.011)</li>
-                        <li>Otros: "una" (variante), "capa", "La", "cama"</li>
+                        <li>1. "una" → 0.082 (8.2%)</li>
+                        <li>2. "la" → 0.023 (2.3%)</li>
+                        <li>3. "un" → 0.017 (1.7%)</li>
+                        <li>4. "el" → 0.011 (1.1%)</li>
+                        <li>5. "una" → 0.007 (0.7%)</li>
+                        <li>6. "capa" → 0.006 (0.6%)</li>
+                        <li>7. "La" → 0.005 (0.5%)</li>
+                        <li>8. "cama" → 0.013 (1.3%)</li>
+                        <li>9. "i" → 0.005 (0.5%)</li>
+                        <li>10. "ia" → 0.007 (0.7%)</li>
                     </ul>
                     
-                    <p><strong>🔍 Análisis:</strong> El modelo profesor tiene predicciones más confiadas (probabilidades mayores), mientras que el estudiante muestra distribuciones más uniformes. <span class="highlight">KL Divergencia: 1.706555</span></p>
+                    <p><strong>🔍 Análisis de las diferencias:</strong></p>
+                    <ul>
+                        <li><strong>Confianza del profesor:</strong> El modelo profesor tiene predicciones mucho más confiadas, con los dos primeros tokens ("un" y "una") acumulando casi el 60% de la probabilidad total (0.300 + 0.297 = 0.597)</li>
+                        <li><strong>Distribución del estudiante:</strong> El modelo estudiante muestra una distribución más uniforme y menos confiada, con su predicción más alta siendo solo 8.2% ("una")</li>
+                        <li><strong>Orden diferente:</strong> Aunque ambos modelos predicen tokens similares, el orden de preferencia es distinto. El profesor prefiere "un" (masculino) primero, mientras que el estudiante prefiere "una" (femenino)</li>
+                        <li><strong>Tokens inesperados:</strong> El estudiante predice "cama" con 1.3% de probabilidad, un token poco relevante que el profesor no prioriza tanto</li>
+                    </ul>
                     
-                    <p>El objetivo del entrenamiento es reducir esta divergencia transfiriendo el conocimiento del profesor al estudiante.</p>
+                    <p><strong>📉 Resultado de Divergencia KL:</strong></p>
+                    <p><span class="highlight">KL Divergencia: 1.706555</span></p>
+                    
+                    <p><strong>💡 Significado:</strong></p>
+                    <p>La divergencia KL de 1.706555 cuantifica la diferencia entre estas dos distribuciones de probabilidad. Un valor alto indica que el estudiante todavía está lejos de imitar las predicciones del profesor. El objetivo del entrenamiento de destilación es minimizar esta divergencia, haciendo que el estudiante aprenda a predecir de manera similar al profesor sin necesitar el mismo tamaño de modelo.</p>
                 </div>
                 
                 <div class="image-container">
-                    <img src="Imagen3Destilacion.png" alt="Imagen 3 - Predicciones Top-10">
+                    <img src="Imagen3Destilacion.png" alt="Imagen 3 - Comparación de predicciones">
                 </div>
             </div>
             
-            <!-- Sección 4 -->
+            <!-- Sección 4: Imagen 4 -->
             <div class="section">
-                <span class="badge">Paso 4</span>
-                <h2>Entrenamiento con Benchmark LAMBADA</h2>
+                <span class="badge">Captura 4</span>
+                <h2>Preparación del Benchmark LAMBADA y Advertencias</h2>
                 
                 <div class="explanation">
-                    <p><strong>🎯 Objetivo:</strong> Entrenar el modelo estudiante usando el dataset LAMBADA (Language Modeling Broadened to Account for Discourse Aspects).</p>
+                    <p><strong>📝 Descripción:</strong></p>
+                    <p>Esta captura muestra la ejecución del script <code>preguntas_dificiles_prof_para_conneccion.py</code>, que configura un benchmark de evaluación usando el dataset LAMBADA. Durante la inicialización, el sistema detecta flags de generación incompatibles con la configuración actual.</p>
                     
-                    <p><strong>⚠️ Problema detectado:</strong></p>
+                    <p><strong>⚠️ ADVERTENCIAS DETECTADAS:</strong></p>
+                    <div class="code-block">
+The following generation flags are not valid and may be ignored: ['temperature'].
+Set `TRANSFORMERS_VERBOSITY=info` for more details.
+                    </div>
+                    
+                    <p><strong>🔧 Análisis de las advertencias:</strong></p>
                     <ul>
-                        <li><strong>Error:</strong> "The following generation flags are not valid and may be ignored: ['temperature']"</li>
-                        <li><strong>Causa:</strong> El parámetro 'temperature' no está soportado en la configuración actual del modelo</li>
-                        <li><strong>Sugerencia:</strong> Usar 'TRANSFORMERS_VERBOSITY=info' para más detalles</li>
+                        <li><strong>Flag problemático:</strong> <code>temperature</code></li>
+                        <li><strong>Causa:</strong> El parámetro 'temperature' no está soportado en el modo de generación actual del modelo</li>
+                        <li><strong>Impacto:</strong> El flag será ignorado durante la generación, lo que puede afectar la variabilidad de las respuestas</li>
+                        <li><strong>Otros flags listados:</strong> 
+                            <ul style="margin-top: 8px;">
+                                <li>{'rep': 'repetition'} - Control de repetición de tokens</li>
+                                <li>{'leng': 'length'} - Control de longitud de respuestas</li>
+                                <li>{'freq': 'frequency'} - Control de frecuencia de tokens</li>
+                            </ul>
+                        </li>
                     </ul>
                     
-                    <p><strong>🔧 Configuración del entrenamiento:</strong></p>
+                    <p><strong>📊 CONFIGURACIÓN DEL BENCHMARK LAMBADA:</strong></p>
+                    <p><strong>Nombre del archivo:</strong> <code>preguntas_dificiles_prof_para_conneccion.py</code></p>
+                    <p>Este script está diseñado para:</p>
                     <ul>
-                        <li><strong>Benchmark:</strong> LAMBADA (evaluación de comprensión contextual)</li>
-                        <li><strong>Flags conflictivos:</strong> temperatura, repetición, longitud, frecuencia</li>
-                        <li><strong>Modo:</strong> Solo respuestas TOPK (top-k sampling)</li>
-                        <li><strong>Profesor dominante:</strong> Habilitado</li>
+                        <li><strong>Dataset LAMBADA:</strong> Language Modeling Broadened to Account for Discourse Aspects - un benchmark que evalúa la capacidad del modelo para predecir la última palabra de un texto considerando el contexto largo</li>
+                        <li><strong>Modo BENCHMARK ESTRICTO:</strong> Solo respuestas TOPK</li>
+                        <li><strong>Modo de evaluación:</strong> PROFESOR DOMINA - el modelo profesor guía la evaluación</li>
+                        <li><strong>Objetivo:</strong> Generar preguntas difíciles basadas en contextos largos para probar la comprensión del modelo estudiante</li>
                     </ul>
                     
-                    <p><strong>⚙️ Recomendación:</strong> Este error indica que se debe ajustar la configuración del modelo eliminando el flag 'temperature' o usando 'set TRANSFORMERS_VERBOSITY=info' para modo debug.</p>
+                    <p><strong>🎯 BENCHMARK LAMBADA - Detalles:</strong></p>
+                    <ul>
+                        <li><strong>Propósito:</strong> Evaluar la capacidad de comprensión contextual a largo plazo</li>
+                        <li><strong>Funcionamiento:</strong> Presenta textos donde la palabra final solo puede predecirse si se entiende todo el contexto previo</li>
+                        <li><strong>Dificultad:</strong> Considerado uno de los benchmarks más desafiantes para modelos de lenguaje</li>
+                        <li><strong>Uso en destilación:</strong> Permite identificar dónde el estudiante necesita más entrenamiento comparando sus predicciones con las del profesor</li>
+                    </ul>
                     
-                    <p>El benchmark LAMBADA es crítico para evaluar la capacidad del modelo de predecir palabras finales en contextos largos, simulando comprensión de texto real.</p>
+                    <p><strong>💡 Recomendaciones:</strong></p>
+                    <ul>
+                        <li><strong>Para resolver la advertencia:</strong> Ejecutar <code>export TRANSFORMERS_VERBOSITY=info</code> antes del script para obtener más detalles</li>
+                        <li><strong>Alternativa:</strong> Modificar el código para remover el parámetro 'temperature' de las llamadas de generación</li>
+                        <li><strong>Validación:</strong> Verificar que la ausencia del parámetro 'temperature' no afecte los resultados del benchmark</li>
+                    </ul>
+                    
+                    <p><strong>🔍 Estado actual:</strong></p>
+                    <p>El sistema está correctamente configurado para ejecutar el benchmark LAMBADA en modo "profesor domina" con validación TOPK, aunque con advertencias sobre flags de generación que serán ignorados. El proceso puede continuar sin errores críticos.</p>
                 </div>
                 
                 <div class="image-container">
@@ -263,7 +378,7 @@
         
         <footer>
             <p><strong>Práctica de Destilación de Modelos - ASIR</strong></p>
-            <p>Febrero 2026 | Knowledge Distillation con Transformers</p>
+            <p>Febrero 2026 | Knowledge Distillation con Qwen2.5</p>
         </footer>
     </div>
 </body>
