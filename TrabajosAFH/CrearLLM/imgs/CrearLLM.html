@@ -101,27 +101,9 @@
     </header>
 
     <main>
-      <!-- Captura 1 -->
+      <!-- Captura 1 (teoría de la 2) -->
       <section class="card">
         <span class="badge">Captura 1</span>
-        <h2>Dataset de recetas en formato JSON</h2>
-        <div class="explain">
-          <p>Se muestra el archivo <code>recetas.jsonl</code> que contiene el dataset de entrenamiento con ejemplos de recetas de cocina en español.</p>
-          <ul>
-            <li>Cada línea es un objeto JSON con campos <code>instruction</code> (pregunta/pedido) y <code>output</code> (respuesta con la receta completa).</li>
-            <li><strong>Ejemplos incluidos:</strong> Pechugas de Pollo al Limón, Ensalada Caprese, Potaje de Garbanzos con Espinacas, Lentejas con Chorizo.</li>
-            <li>Formato estructurado: instrucción clara seguida de pasos detallados de preparación.</li>
-            <li>Este dataset se usará para ajustar el modelo y especializarlo en responder preguntas de cocina.</li>
-          </ul>
-        </div>
-        <figure>
-          <img class="img" data-base="Imagen1CrearLLM" src="Imagen1CrearLLM.png" alt="Captura 1 - Dataset recetas.jsonl" />
-        </figure>
-      </section>
-
-      <!-- Captura 2 -->
-      <section class="card">
-        <span class="badge">Captura 2</span>
         <h2>Archivo de configuración para el entrenamiento (config_chef.yml)</h2>
         <div class="explain">
           <p>Archivo YAML que define todos los parámetros del fine-tuning con LoRA.</p>
@@ -136,7 +118,25 @@
           </ul>
         </div>
         <figure>
-          <img class="img" data-base="Imagen2CrearLLM" src="Imagen2CrearLLM.png" alt="Captura 2 - Configuración YAML" />
+          <img class="img" data-base="Imagen1CrearLLM" src="Imagen1CrearLLM.png" alt="Captura 1" />
+        </figure>
+      </section>
+
+      <!-- Captura 2 (teoría de la 1) -->
+      <section class="card">
+        <span class="badge">Captura 2</span>
+        <h2>Dataset de recetas en formato JSON</h2>
+        <div class="explain">
+          <p>Se muestra el archivo <code>recetas.jsonl</code> que contiene el dataset de entrenamiento con ejemplos de recetas de cocina en español.</p>
+          <ul>
+            <li>Cada línea es un objeto JSON con campos <code>instruction</code> (pregunta/pedido) y <code>output</code> (respuesta con la receta completa).</li>
+            <li><strong>Ejemplos incluidos:</strong> Pechugas de Pollo al Limón, Ensalada Caprese, Potaje de Garbanzos con Espinacas, Lentejas con Chorizo.</li>
+            <li>Formato estructurado: instrucción clara seguida de pasos detallados de preparación.</li>
+            <li>Este dataset se usará para ajustar el modelo y especializarlo en responder preguntas de cocina.</li>
+          </ul>
+        </div>
+        <figure>
+          <img class="img" data-base="Imagen2CrearLLM" src="Imagen2CrearLLM.png" alt="Captura 2" />
         </figure>
       </section>
 
@@ -155,31 +155,13 @@
           </ul>
         </div>
         <figure>
-          <img class="img" data-base="Imagen3CrearLLM" src="Imagen3CrearLLM.png" alt="Captura 3 - Comandos terminal" />
+          <img class="img" data-base="Imagen3CrearLLM" src="Imagen3CrearLLM.png" alt="Captura 3" />
         </figure>
       </section>
 
-      <!-- Captura 4 -->
+      <!-- Captura 4 (teoría de la 5) -->
       <section class="card">
         <span class="badge">Captura 4</span>
-        <h2>Inicio del entrenamiento con Axolotl</h2>
-        <div class="explain">
-          <p>Ejecución del comando de entrenamiento usando la herramienta Axolotl.</p>
-          <ul>
-            <li><strong>Comando:</strong> <code>accelerate launch -m axolotl.cli.train config_chef.yml</code></li>
-            <li>El sistema activa el entorno virtual (<code>source venv/bin/activate</code>) antes de ejecutar.</li>
-            <li>Axolotl es una herramienta que simplifica el fine-tuning de LLMs con LoRA.</li>
-            <li>Se aprecia el error "zsh: command not found: #" al intentar usar un comentario como comando (línea comentada incorrectamente ejecutada).</li>
-          </ul>
-        </div>
-        <figure>
-          <img class="img" data-base="Imagen4CrearLLM" src="Imagen4CrearLLM.png" alt="Captura 4 - Lanzamiento entrenamiento" />
-        </figure>
-      </section>
-
-      <!-- Captura 5 -->
-      <section class="card">
-        <span class="badge">Captura 5</span>
         <h2>Visualización del archivo de configuración completo</h2>
         <div class="explain">
           <p>Vista completa del archivo <code>config_chef.yml</code> con todos los parámetros de entrenamiento visibles.</p>
@@ -191,7 +173,25 @@
           </ul>
         </div>
         <figure>
-          <img class="img" data-base="Imagen5CrearLLM" src="Imagen5CrearLLM.png" alt="Captura 5 - Config completa" />
+          <img class="img" data-base="Imagen4CrearLLM" src="Imagen4CrearLLM.png" alt="Captura 4" />
+        </figure>
+      </section>
+
+      <!-- Captura 5 (teoría de la 4) -->
+      <section class="card">
+        <span class="badge">Captura 5</span>
+        <h2>Inicio del entrenamiento con Axolotl</h2>
+        <div class="explain">
+          <p>Ejecución del comando de entrenamiento usando la herramienta Axolotl.</p>
+          <ul>
+            <li><strong>Comando:</strong> <code>accelerate launch -m axolotl.cli.train config_chef.yml</code></li>
+            <li>El sistema activa el entorno virtual (<code>source venv/bin/activate</code>) antes de ejecutar.</li>
+            <li>Axolotl es una herramienta que simplifica el fine-tuning de LLMs con LoRA.</li>
+            <li>Se aprecia el error "zsh: command not found: #" al intentar usar un comentario como comando (línea comentada incorrectamente ejecutada).</li>
+          </ul>
+        </div>
+        <figure>
+          <img class="img" data-base="Imagen5CrearLLM" src="Imagen5CrearLLM.png" alt="Captura 5" />
         </figure>
       </section>
     </main>
@@ -213,3 +213,4 @@
   </script>
 </body>
 </html>
+
