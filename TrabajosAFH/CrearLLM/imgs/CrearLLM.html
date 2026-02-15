@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Práctica: Fine-tuning LLM con LoRA</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: #0f172a;
+      color: #0b1220;
+      padding: 20px;
+      line-height: 1.55;
+    }
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 18px 55px rgba(0,0,0,.35);
+    }
+    header {
+      background: linear-gradient(135deg, #1e293b, #0b1220);
+      color: #fff;
+      padding: 22px 26px;
+    }
+    header h1 { font-size: 1.6rem; margin-bottom: 6px; }
+    header p { opacity: .9; font-size: .98rem; }
+
+    main { padding: 26px; }
+
+    .card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+    .badge {
+      display: inline-block;
+      font-size: .82rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #10b981;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+    .card h2 {
+      font-size: 1.15rem;
+      color: #0f172a;
+      margin-bottom: 10px;
+    }
+    .explain {
+      background: #fff;
+      border-left: 4px solid #10b981;
+      border-radius: 10px;
+      padding: 12px 14px;
+      color: #111827;
+    }
+    .explain p { margin-bottom: 8px; }
+    .explain ul { margin-left: 18px; }
+    .explain li { margin-bottom: 6px; }
+
+    figure {
+      margin-top: 12px;
+      background: #0b1220;
+      border-radius: 10px;
+      padding: 12px;
+      text-align: center;
+    }
+    figure img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,.35);
+    }
+    footer {
+      background: #0b1220;
+      color: #fff;
+      padding: 14px 26px;
+      font-size: .9rem;
+      opacity: .9;
+    }
+    code {
+      background: #0b1220;
+      color: #e5e7eb;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: .95em;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Práctica: Fine-tuning de LLM con LoRA</h1>
+      <p>Entrenamiento personalizado de Phi-3-mini-4k usando técnicas LoRA y dataset de recetas.</p>
+    </header>
+
+    <main>
+      <!-- Captura 1 -->
+      <section class="card">
+        <span class="badge">Captura 1</span>
+        <h2>Dataset de recetas en formato JSON</h2>
+        <div class="explain">
+          <p>Se muestra el archivo <code>recetas.jsonl</code> que contiene el dataset de entrenamiento con ejemplos de recetas de cocina en español.</p>
+          <ul>
+            <li>Cada línea es un objeto JSON con campos <code>instruction</code> (pregunta/pedido) y <code>output</code> (respuesta con la receta completa).</li>
+            <li><strong>Ejemplos incluidos:</strong> Pechugas de Pollo al Limón, Ensalada Caprese, Potaje de Garbanzos con Espinacas, Lentejas con Chorizo.</li>
+            <li>Formato estructurado: instrucción clara seguida de pasos detallados de preparación.</li>
+            <li>Este dataset se usará para ajustar el modelo y especializarlo en responder preguntas de cocina.</li>
+          </ul>
+        </div>
+        <figure>
+          <img class="img" data-base="Imagen1CrearLLM" src="Imagen1CrearLLM.png" alt="Captura 1 - Dataset recetas.jsonl" />
+        </figure>
+      </section>
+
+      <!-- Captura 2 -->
+      <section class="card">
+        <span class="badge">Captura 2</span>
+        <h2>Archivo de configuración para el entrenamiento (config_chef.yml)</h2>
+        <div class="explain">
+          <p>Archivo YAML que define todos los parámetros del fine-tuning con LoRA.</p>
+          <ul>
+            <li><strong>Modelo base:</strong> <code>microsoft/Phi-3-mini-4k-instruct</code></li>
+            <li><strong>Tipo de modelo:</strong> <code>PhiForCausalLM</code></li>
+            <li><strong>Tokenizador:</strong> <code>AutoTokenizer</code></li>
+            <li><strong>Hardware:</strong> Optimización para consumidor (<code>load_in_4bit: true</code>, <code>adapter: lora</code>)</li>
+            <li><strong>Dataset:</strong> <code>recetas.jsonl</code> con formato instruction/output</li>
+            <li><strong>Parámetros de entrenamiento:</strong> dataset_prepared_path, val_set_size: 0.05 (5% validación), sequence_len: 1024, sample_packing: true</li>
+            <li><strong>Configuración LoRA:</strong> lora_r: 16, lora_alpha: 32, lora_dropout: 0.05, módulos target: qkv_proj, o_proj, gate_up_proj, down_proj</li>
+          </ul>
+        </div>
+        <figure>
+          <img class="img" data-base="Imagen2CrearLLM" src="Imagen2CrearLLM.png" alt="Captura 2 - Configuración YAML" />
+        </figure>
+      </section>
+
+      <!-- Captura 3 -->
+      <section class="card">
+        <span class="badge">Captura 3</span>
+        <h2>Navegación al directorio y creación de archivos</h2>
+        <div class="explain">
+          <p>Comandos de terminal para preparar el entorno de trabajo.</p>
+          <ul>
+            <li><code>cd ~/mi-chef-bot</code> - Accede al directorio del proyecto</li>
+            <li><code>touch config_chef.yml</code> - Crea el archivo de configuración vacío</li>
+            <li><code>open -e config_chef.yml</code> - Abre el archivo para edición</li>
+            <li><code>touch recetas.jsonl</code> - Crea el archivo del dataset</li>
+            <li><code>open -e recetas.jsonl</code> - Abre el dataset para añadir ejemplos</li>
+          </ul>
+        </div>
+        <figure>
+          <img class="img" data-base="Imagen3CrearLLM" src="Imagen3CrearLLM.png" alt="Captura 3 - Comandos terminal" />
+        </figure>
+      </section>
+
+      <!-- Captura 4 -->
+      <section class="card">
+        <span class="badge">Captura 4</span>
+        <h2>Inicio del entrenamiento con Axolotl</h2>
+        <div class="explain">
+          <p>Ejecución del comando de entrenamiento usando la herramienta Axolotl.</p>
+          <ul>
+            <li><strong>Comando:</strong> <code>accelerate launch -m axolotl.cli.train config_chef.yml</code></li>
+            <li>El sistema activa el entorno virtual (<code>source venv/bin/activate</code>) antes de ejecutar.</li>
+            <li>Axolotl es una herramienta que simplifica el fine-tuning de LLMs con LoRA.</li>
+            <li>Se aprecia el error "zsh: command not found: #" al intentar usar un comentario como comando (línea comentada incorrectamente ejecutada).</li>
+          </ul>
+        </div>
+        <figure>
+          <img class="img" data-base="Imagen4CrearLLM" src="Imagen4CrearLLM.png" alt="Captura 4 - Lanzamiento entrenamiento" />
+        </figure>
+      </section>
+
+      <!-- Captura 5 -->
+      <section class="card">
+        <span class="badge">Captura 5</span>
+        <h2>Visualización del archivo de configuración completo</h2>
+        <div class="explain">
+          <p>Vista completa del archivo <code>config_chef.yml</code> con todos los parámetros de entrenamiento visibles.</p>
+          <ul>
+            <li>Se confirman los parámetros LoRA: r=16, alpha=32, dropout=0.05</li>
+            <li>Módulos objetivo especificados: qkv_proj, o_proj, gate_up_proj, down_proj</li>
+            <li>Configuración de entrenamiento detallada lista para ejecutar</li>
+            <li>Este archivo será leído por Axolotl para configurar todo el proceso de fine-tuning</li>
+          </ul>
+        </div>
+        <figure>
+          <img class="img" data-base="Imagen5CrearLLM" src="Imagen5CrearLLM.png" alt="Captura 5 - Config completa" />
+        </figure>
+      </section>
+    </main>
+
+    <footer>
+      Práctica de Fine-tuning LLM - ASIR | Febrero 2026
+    </footer>
+  </div>
+
+  <script>
+    // Fallback automático: si no existe .png, carga .jpg
+    document.querySelectorAll("img.img").forEach(img => {
+      img.onerror = () => {
+        img.onerror = null;
+        const base = img.getAttribute("data-base");
+        img.src = base + ".jpg";
+      };
+    });
+  </script>
+</body>
+</html>
