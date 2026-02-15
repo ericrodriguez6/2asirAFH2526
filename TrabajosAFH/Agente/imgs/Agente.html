@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Práctica: Agente (opencode + Ollama)</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: #0f172a;
+      color: #0b1220;
+      padding: 20px;
+      line-height: 1.55;
+    }
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 18px 55px rgba(0,0,0,.35);
+    }
+    header {
+      background: linear-gradient(135deg, #1e293b, #0b1220);
+      color: #fff;
+      padding: 22px 26px;
+    }
+    header h1 { font-size: 1.6rem; margin-bottom: 6px; }
+    header p { opacity: .9; font-size: .98rem; }
+
+    main { padding: 26px; }
+
+    .card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+    .badge {
+      display: inline-block;
+      font-size: .82rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #2563eb;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+    .card h2 {
+      font-size: 1.15rem;
+      color: #0f172a;
+      margin-bottom: 10px;
+    }
+    .explain {
+      background: #fff;
+      border-left: 4px solid #2563eb;
+      border-radius: 10px;
+      padding: 12px 14px;
+      color: #111827;
+    }
+    .explain p { margin-bottom: 8px; }
+    .explain ul { margin-left: 18px; }
+    .explain li { margin-bottom: 6px; }
+
+    figure {
+      margin-top: 12px;
+      background: #0b1220;
+      border-radius: 10px;
+      padding: 12px;
+      text-align: center;
+    }
+    figure img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,.35);
+    }
+    footer {
+      background: #0b1220;
+      color: #fff;
+      padding: 14px 26px;
+      font-size: .9rem;
+      opacity: .9;
+    }
+    code {
+      background: #0b1220;
+      color: #e5e7eb;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: .95em;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Práctica: Agente con opencode + Ollama (local)</h1>
+      <p>Configuración, instalación y ejecución de un agente usando un modelo local (Qwen2.5 Coder 7B).</p>
+    </header>
+
+    <main>
+      <!-- Captura 1 -->
+      <section class="card">
+        <span class="badge">Captura 1</span>
+        <h2>Configuración de opencode para usar Ollama (local)</h2>
+        <div class="explain">
+          <p>En esta captura se edita el archivo <code>~/.config/opencode/config.json</code> para que opencode apunte a un proveedor local.</p>
+          <ul>
+            <li>Se define el <code>provider</code> como <code>ollama</code> con interfaz compatible tipo OpenAI.</li>
+            <li>Se fija el <code>baseURL</code> a <code>http://127.0.0.1:11434/v1</code>, que es el endpoint local de Ollama.</li>
+            <li>En <code>models</code> se registra el modelo (por ejemplo <code>qwen2.5-coder:7b</code>) y se selecciona en <code>model</code> para que sea el usado por defecto.</li>
+          </ul>
+        </div>
+        <figure>
+          <img class="img" data-base="Imagen1Agente" src="Imagen1Agente.png" alt="Captura 1 - Configuración opencode" />
+        </figure>
+      </section>
+
+      <!-- Captura 2 -->
+      <section class="card">
+        <span class="badge">Captura 2</span>
+        <h2>Instalación y preparación del directorio de configuración</h2>
+        <div class="explain">
+          <p>Esta captura muestra los comandos necesarios para dejar opencode instalado y listo para configurar.</p>
+          <ul>
+            <li>Se instala globalmente con <code>sudo npm install -g opencode-ai --force</code> (aparece el aviso de que <code>--force</code> desactiva protecciones recomendadas).</li>
+            <li>Se crea el directorio de configuración con <code>mkdir -p ~/.config/opencode</code>.</li>
+            <li>Se abre el fichero de configuración con <code>nano ~/.config/opencode/config.json</code> para editar los parámetros del proveedor/modelo.</li>
+          </ul>
+        </div>
+        <figure>
+          <img class="img" data-base="Imagen2Agente" src="Imagen2Agente.png" alt="Captura 2 - Instalación y comandos" />
+        </figure>
+      </section>
+
+      <!-- Captura 3 -->
+      <section class="card">
+        <span class="badge">Captura 3</span>
+        <h2>Ejecución del agente en opencode (modelo local)</h2>
+        <div class="explain">
+          <p>Aquí se ve la interfaz de opencode ejecutando una petición en español (por ejemplo: “cuéntame un cuento”).</p>
+          <ul>
+            <li>El agente muestra la llamada/uso de una habilidad (por ejemplo <code>storytelling</code>) para orientar la respuesta.</li>
+            <li>Se aprecia el modelo seleccionado (<code>qwen2.5-coder:7b</code>) funcionando en local (Ollama).</li>
+            <li>Se muestra un monitor de uso de GPU (“Apple M4 (Integrada)”), indicando que el equipo está cargando trabajo durante la ejecución.</li>
+          </ul>
+        </div>
+        <figure>
+          <img class="img" data-base="Imagen3Agente" src="Imagen3Agente.png" alt="Captura 3 - opencode ejecutando el agente" />
+        </figure>
+      </section>
+
+      <!-- Captura 4 -->
+      <section class="card">
+        <span class="badge">Captura 4</span>
+        <h2>Lanzamiento de opencode desde el proyecto</h2>
+        <div class="explain">
+          <p>En esta captura se entra al directorio del proyecto y se ejecuta opencode desde terminal.</p>
+          <ul>
+            <li>Se cambia al proyecto con <code>cd /Users/.../Desktop/AgenteIA</code>.</li>
+            <li>Se lanza el entorno del agente con el comando <code>opencode</code>, que usa la configuración creada en <code>~/.config/opencode/config.json</code>.</li>
+          </ul>
+        </div>
+        <figure>
+          <img class="img" data-base="Imagen4Agente" src="Imagen4Agente.png" alt="Captura 4 - Ejecución desde terminal" />
+        </figure>
+      </section>
+    </main>
+
+    <footer>
+      Consejo: guarda el HTML en la misma carpeta que las imágenes. Este documento intenta cargar primero .png y si falla, carga .jpg automáticamente.
+    </footer>
+  </div>
+
+  <script>
+    // Fallback automático: si no existe .png, carga .jpg
+    document.querySelectorAll("img.img").forEach(img => {
+      img.onerror = () => {
+        img.onerror = null;
+        const base = img.getAttribute("data-base");
+        img.src = base + ".jpg";
+      };
+    });
+  </script>
+</body>
+</html>
