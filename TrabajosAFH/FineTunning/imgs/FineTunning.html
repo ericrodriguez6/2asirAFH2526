@@ -3,221 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Práctica de Fine-Tuning con Gemma y MLX - Documentación</title>
+    <title>Práctica Fine-Tuning Gemma 3 270M (MLX)</title>
     <style>
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            line-height: 1.6;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
             color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
             max-width: 900px;
             margin: 0 auto;
-            padding: 40px 20px;
-            background-color: #f4f4f9;
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
         h1 {
             text-align: center;
             color: #2c3e50;
-            border-bottom: 3px solid #3498db;
+            border-bottom: 2px solid #3498db;
             padding-bottom: 20px;
             margin-bottom: 40px;
         }
-        .section {
-            background: white;
-            padding: 30px;
-            margin-bottom: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        .step {
+            margin-bottom: 60px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 40px;
         }
-        h2 {
-            color: #2980b9;
-            margin-top: 0;
-            font-size: 1.5rem;
-            border-left: 5px solid #3498db;
-            padding-left: 15px;
+        .step:last-child {
+            border-bottom: none;
         }
-        .theory-box {
+        .explanation {
             background-color: #e8f4f8;
-            border: 1px solid #d1e7f0;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 25px;
+            border-left: 5px solid #3498db;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            border-radius: 0 8px 8px 0;
         }
-        .theory-title {
-            font-weight: bold;
-            color: #1a5276;
-            display: block;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
+        .explanation h3 {
+            margin-top: 0;
+            color: #2980b9;
         }
         img {
             display: block;
             max-width: 100%;
             height: auto;
-            margin: 20px auto;
-            border-radius: 6px;
             border: 1px solid #ddd;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        .img-placeholder {
-            background: #eee;
-            color: #666;
-            padding: 40px;
-            text-align: center;
-            border: 2px dashed #ccc;
-            margin: 20px 0;
-            border-radius: 8px;
-        }
-        ul {
-            margin-top: 5px;
-            padding-left: 20px;
-        }
-        li {
-            margin-bottom: 8px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin: 0 auto;
         }
         code {
-            background-color: #f0f0f0;
+            background-color: #f7f7f7;
             padding: 2px 5px;
-            border-radius: 4px;
-            font-family: 'Consolas', monospace;
-            color: #c0392b;
+            border-radius: 3px;
+            font-family: Consolas, monospace;
+            color: #c7254e;
         }
     </style>
 </head>
 <body>
 
-    <h1>Documentación: Fine-Tuning de LLM en Local con MLX</h1>
+<div class="container">
+    <h1>Documentación: Proceso de Fine-Tuning con MLX</h1>
 
-    <!-- SECCIÓN 1 -->
-    <div class="section">
-        <h2>1. Selección del Modelo</h2>
-        <div class="theory-box">
-            <span class="theory-title">Fundamento Teórico: Modelos Eficientes en Local (On-Device AI)</span>
-            <p>En esta práctica utilizamos <strong>Gemma 3 270M</strong>, un modelo "pequeño" (Small Language Model o SLM) diseñado por Google específicamente para ejecutarse en dispositivos locales como portátiles.</p>
-            <ul>
-                <li><strong>Cuantización MLX:</strong> Los modelos que aparecen con etiquetas como <code>4bit</code> o <code>8bit</code> han sido comprimidos usando el framework <strong>MLX</strong> de Apple. Esto reduce drásticamente el uso de memoria RAM unificada, permitiendo entrenar modelos en un Mac sin necesidad de servidores externos.</li>
-                <li><strong>Gemma-3-270m-it:</strong> La etiqueta <code>it</code> significa <em>Instruct Tuned</em> (ajustado para instrucciones), lo que lo hace ideal como base para enseñarle nuevas tareas mediante fine-tuning.</li>
-            </ul>
+    <!-- PASO 1 -->
+    <div class="step">
+        <div class="explanation">
+            <h3>1. Preparación del entorno Python</h3>
+            <p>Comenzamos creando un directorio de trabajo limpio y eliminando versiones anteriores si existen. Se configura un entorno virtual (<code>python3 -m venv venv</code>) para aislar las dependencias del proyecto y no afectar al sistema operativo base. Esto es una buena práctica estándar en desarrollo Python.</p>
         </div>
-        <!-- REEMPLAZA src CON EL NOMBRE DE TU IMAGEN DE LA LISTA DE MODELOS -->
-        <img src="captura_lista_modelos.jpg" alt="Captura mostrando la lista de modelos Gemma en MLX" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-        <div class="img-placeholder" style="display:none;">Aquí va la captura de la lista de modelos (reemplaza 'captura_lista_modelos.jpg' en el HTML)</div>
+        <img src="Imagen1.png" alt="Captura 1">
     </div>
 
-    <!-- SECCIÓN 2 -->
-    <div class="section">
-        <h2>2. Preparación del Entorno e Instalación</h2>
-        <div class="theory-box">
-            <span class="theory-title">Fundamento Teórico: Configuración del Entorno MLX</span>
-            <p>Para realizar <em>fine-tuning</em> en macOS con chips Apple Silicon (M1/M2/M3), no usamos PyTorch estándar con CUDA, sino <strong>MLX</strong>, una librería de arrays optimizada por Apple.</p>
-            <ul>
-                <li><strong>Librerías clave:</strong>
-                    <ul>
-                        <li><code>mlx-lm</code>: Herramienta específica para gestionar, entrenar y generar texto con LLMs en Mac.</li>
-                        <li><code>huggingface_hub</code>: Permite autenticarse (<code>hf auth login</code>) para descargar modelos protegidos o subir nuestros resultados a la nube.</li>
-                    </ul>
-                </li>
-                <li><strong>Entorno Virtual (venv):</strong> Se observa el uso de un entorno aislado (<code>source venv/bin/activate</code>) para evitar conflictos entre las versiones de librerías de Python del sistema y las del proyecto.</li>
-            </ul>
+    <!-- PASO 2 -->
+    <div class="step">
+        <div class="explanation">
+            <h3>2. Instalación de librerías MLX</h3>
+            <p>Instalamos las librerías específicas de Apple: <code>mlx-lm</code> (para gestión de LLMs), <code>datasets</code> y <code>huggingface_hub</code>. MLX es el framework de Apple que sustituye a CUDA/PyTorch en los chips M1/M2/M3, permitiendo usar la memoria unificada del Mac para entrenar modelos localmente.</p>
         </div>
-        <!-- REEMPLAZA src CON TU CAPTURA DE LA TERMINAL INSTALANDO -->
-        <img src="captura_instalacion.jpg" alt="Captura de terminal instalando librerías" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-        <div class="img-placeholder" style="display:none;">Aquí va la captura de la instalación pip install (reemplaza 'captura_instalacion.jpg')</div>
+        <img src="Imagen2.png" alt="Captura 2">
     </div>
 
-    <!-- SECCIÓN 3 -->
-    <div class="section">
-        <h2>3. Preparación del Dataset</h2>
-        <div class="theory-box">
-            <span class="theory-title">Fundamento Teórico: Formato de Datos para Chat</span>
-            <p>El entrenamiento supervisado requiere datos estructurados. Aquí estamos creando manualmente archivos <strong>JSONL</strong> (JSON Lines), donde cada línea es un objeto independiente que representa una conversación completa.</p>
-            <ul>
-                <li><strong>Estructura ChatML:</strong> Usamos el formato de roles estandarizado:
-                    <ul>
-                        <li><code>system</code> (opcional): Define la personalidad del bot.</li>
-                        <li><code>user</code>: La instrucción o pregunta simulada.</li>
-                        <li><code>assistant</code>: La respuesta ideal que queremos que el modelo aprenda.</li>
-                    </ul>
-                </li>
-                <li><strong>Split Train/Valid:</strong> Es crucial separar los datos en dos conjuntos: <code>train.jsonl</code> (para enseñar) y <code>valid.jsonl</code> (para examinar). Si usamos los mismos datos para validar, el modelo haría "trampas" (overfitting) y no sabríamos si realmente está aprendiendo a generalizar.</li>
-            </ul>
+    <!-- PASO 3 -->
+    <div class="step">
+        <div class="explanation">
+            <h3>3. Autenticación en Hugging Face</h3>
+            <p>El sistema solicita un token de Hugging Face. Esto es necesario porque muchos modelos (incluso los abiertos como Gemma) requieren aceptar términos de uso. El comando <code>hf auth login</code> (o su versión moderna) conecta nuestra terminal con el repositorio para poder descargar los pesos del modelo.</p>
         </div>
-        <!-- REEMPLAZA src CON TU CAPTURA DE LOS COMANDOS ECHO Y JSONL -->
-        <img src="captura_dataset.jpg" alt="Captura creación dataset JSONL" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-        <div class="img-placeholder" style="display:none;">Aquí va la captura de la creación de los JSONL (reemplaza 'captura_dataset.jpg')</div>
+        <img src="Imagen3.png" alt="Captura 3">
     </div>
 
-    <!-- SECCIÓN 4 -->
-    <div class="section">
-        <h2>4. Gestión de Errores: Batch Size</h2>
-        <div class="theory-box">
-            <span class="theory-title">Análisis Técnico: Hiperparámetros y Dimensiones del Dataset</span>
-            <p>Estas capturas muestran un error crítico y educativo en el aprendizaje automático: <strong>el conflicto entre Batch Size y Tamaño del Dataset</strong>.</p>
-            <ul>
-                <li><strong>El Error:</strong> El sistema lanzó un <code>ValueError</code> porque configuramos un <code>batch_size=2</code> (procesar 2 ejemplos a la vez), pero nuestro archivo de validación (<code>valid.jsonl</code>) solo contenía 1 ejemplo.</li>
-                <li><strong>Explicación Técnica:</strong> Durante el entrenamiento, el algoritmo intenta agrupar los datos en lotes. Si el lote requerido es mayor que los datos disponibles, el cargador de datos (Data Loader) falla o descarta los datos sobrantes.</li>
-                <li><strong>Solución:</strong> Para datasets minúsculos de prueba (como este ejemplo de 1 o 2 líneas), es obligatorio reducir el <code>batch_size</code> a 1 o aumentar el número de ejemplos en el archivo.</li>
-            </ul>
+    <!-- PASO 4 -->
+    <div class="step">
+        <div class="explanation">
+            <h3>4. Creación del Dataset (Train)</h3>
+            <p>Creamos manualmente el archivo <code>data/train.jsonl</code> usando el formato de chat (roles: user, assistant). Aquí definimos qué queremos que aprenda el modelo: preguntas sobre "ASIR", configuración de Apache y comandos Linux. Estos datos son la "verdad fundamental" (Ground Truth) del entrenamiento.</p>
         </div>
-        <!-- REEMPLAZA src CON TU CAPTURA DEL ERROR EN ROJO -->
-        <img src="captura_error.jpg" alt="Captura del error de batch size" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-        <div class="img-placeholder" style="display:none;">Aquí va la captura del error en rojo (reemplaza 'captura_error.jpg')</div>
+        <img src="Imagen4.png" alt="Captura 4">
     </div>
 
-    <!-- SECCIÓN 5 -->
-    <div class="section">
-        <h2>5. Configuración del Entrenamiento</h2>
-        <div class="theory-box">
-            <span class="theory-title">Fundamento Teórico: Configuración Declarativa vs Imperativa</span>
-            <p>En lugar de escribir comandos kilométricos en la terminal, MLX permite usar archivos de configuración <strong>YAML</strong>.</p>
-            <ul>
-                <li><strong>LoRA (Low-Rank Adaptation):</strong> El script <code>mlx_lm.lora</code> no reentrena todo el modelo. Congela el modelo base (Gemma) y solo entrena capas pequeñas ("adaptadores").</li>
-                <li><strong>Hiperparámetros visibles:</strong>
-                    <ul>
-                        <li><code>iters</code>: Número de pasos de entrenamiento (50 en este caso, lo cual es muy rápido para una prueba).</li>
-                        <li><code>adapter_path</code>: Dónde se guardarán los "nuevos conocimientos" (pesos) del modelo.</li>
-                    </ul>
-                </li>
-            </ul>
+    <!-- PASO 5 -->
+    <div class="step">
+        <div class="explanation">
+            <h3>5. Creación del Dataset (Validation)</h3>
+            <p>Creamos el archivo de validación <code>data/valid.jsonl</code>. Este archivo es crítico: el modelo nunca entrena con él, solo lo usa para examinarse a sí mismo tras cada época. Si el error baja aquí, significa que el modelo está aprendiendo de verdad y no solo memorizando.</p>
         </div>
-        <!-- REEMPLAZA src CON TU CAPTURA DEL ARCHIVO YAML O COMANDO LARGO -->
-        <img src="captura_configuracion.jpg" alt="Captura configuración entrenamiento" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-        <div class="img-placeholder" style="display:none;">Aquí va la captura del archivo YAML o comando de entrenamiento (reemplaza 'captura_configuracion.jpg')</div>
+        <img src="Imagen5.png" alt="Captura 5">
     </div>
 
-    <!-- SECCIÓN 6 -->
-    <div class="section">
-        <h2>6. Proceso de Entrenamiento</h2>
-        <div class="theory-box">
-            <span class="theory-title">Fundamento Teórico: Convergencia y Loss Function</span>
-            <p>Esta captura muestra el núcleo del proceso de aprendizaje.</p>
-            <ul>
-                <li><strong>Training Loss (Pérdida de entrenamiento):</strong> Vemos cómo el valor baja de <code>11.509</code> (Iter 1) a <code>0.334</code> (Iter 50).</li>
-                <li><strong>¿Qué significa?</strong> La "Loss" mide el error del modelo. Al principio, el modelo "adivina" mal (error alto). A medida que avanzan las iteraciones, el algoritmo de <strong>Descenso de Gradiente</strong> ajusta los pesos de LoRA para reducir ese error. Un valor final de <code>0.334</code> indica que el modelo ha aprendido a reproducir casi exactamente los ejemplos que le hemos dado.</li>
-            </ul>
+    <!-- PASO 6 -->
+    <div class="step">
+        <div class="explanation">
+            <h3>6. Error de dimensiones (Batch Size)</h3>
+            <p>Al intentar entrenar, el sistema lanza un <code>ValueError</code>. El error indica que el dataset debe tener al menos tantos ejemplos como el tamaño del lote (<code>batch_size=2</code>). Como nuestro archivo de validación solo tenía 1 línea, el proceso falla matemáticamente al intentar dividir los datos.</p>
         </div>
-        <!-- REEMPLAZA src CON TU CAPTURA DE LAS BARRAS DE PROGRESO -->
-        <img src="captura_training.jpg" alt="Captura progreso entrenamiento" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-        <div class="img-placeholder" style="display:none;">Aquí va la captura de las barras de progreso (reemplaza 'captura_training.jpg')</div>
+        <img src="Imagen6.png" alt="Captura 6">
     </div>
 
-    <!-- SECCIÓN 7 -->
-    <div class="section">
-        <h2>7. Inferencia y Pruebas</h2>
-        <div class="theory-box">
-            <span class="theory-title">Fundamento Teórico: Inferencia y Fusión de Modelos</span>
-            <p>Una vez entrenado, tenemos dos formas de usar el modelo, como se ve en las pruebas:</p>
-            <ol>
-                <li><strong>Adaptadores Dinámicos:</strong> Cargamos el modelo base + el archivo de adaptadores <code>.safetensors</code> pequeño.</li>
-                <li><strong>Modelo Fusionado (Fused):</strong> Combinamos matemáticamente los pesos base con los adaptadores para crear un nuevo modelo independiente (<code>gemma-asir-fused</code>).</li>
-            </ol>
-            <p><strong>Validación cualitativa:</strong> En las capturas vemos cómo el modelo fusionado responde específicamente sobre "ASIR" y comandos de Linux tal y como le enseñamos, mientras que el modelo base daría respuestas genéricas. Esto confirma que el <em>fine-tuning</em> ha sido exitoso.</p>
+    <!-- PASO 7 -->
+    <div class="step">
+        <div class="explanation">
+            <h3>7. Análisis del error (Traceback)</h3>
+            <p>El "Traceback" detallado confirma que el fallo ocurre en el iterador de datos (<code>tqdm/std.py</code> y <code>trainer.py</code>). El cargador de datos intenta coger 2 elementos, encuentra solo 1 y colapsa. Esto nos obliga a corregir los hiperparámetros o ampliar los datos.</p>
         </div>
-        <!-- REEMPLAZA src CON TU CAPTURA DE LM STUDIO O EL CHAT -->
-        <img src="captura_inferencia.jpg" alt="Captura inferencia LM Studio" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-        <div class="img-placeholder" style="display:none;">Aquí va la captura de LM Studio o el chat final (reemplaza 'captura_inferencia.jpg')</div>
+        <img src="Imagen7.png" alt="Captura 7">
     </div>
+
+    <!-- PASO 8 -->
+    <div class="step">
+        <div class="explanation">
+            <h3>8. Solución del problema de datos</h3>
+            <p>Corregimos el problema añadiendo más datos al dataset o ajustando la configuración. También verificamos la integridad de los archivos JSONL con <code>cat</code> para asegurarnos de que la sintaxis JSON es válida y no hay comillas rotas que confundan al parser.</p>
+        </div>
+        <img src="Imagen8.png" alt="Captura 8">
+    </div>
+
+    <!-- PASO 9 -->
+    <div class="step">
+        <div class="explanation">
+            <h3>9. Verificación de Rutas y Archivos</h3>
+            <p>Se comprueba que la estructura de carpetas es correcta (<code>ls data/</code>) y que el script de entrenamiento (<code>mlx_lm.lora</code>) es accesible desde el entorno virtual. A veces el error "command not found" aparece si no hemos activado el venv correctamente.</p>
+        </div>
+        <img src="Imagen9.png" alt="Captura 9">
+    </div>
+
+    <!-- PASO 10 -->
+    <div class="step">
+        <div class="explanation">
+            <h3>10. Inicio exitoso del entrenamiento</h3>
+            <p>Con los errores resueltos, el entrenamiento comienza. Se cargan los pesos del modelo pre-entrenado (Gemma-3-270m) y se inicializan los adaptadores LoRA. Vemos que los "parámetros entrenables" son una fracción muy pequeña del total, lo que confirma la eficiencia de LoRA.</p>
+        </div>
+        <img src="Imagen10.png" alt="Captura 10">
+    </div>
+
+    <!-- PASO 11 -->
+    <div class="step">
+        <div class="explanation">
+            <h3>11. Progreso del Fine-Tuning (Loss)</h3>
+            <p>La métrica clave aquí es <code>Train loss</code>. Empieza alta (11.509) y baja rápidamente hasta 0.334 en la iteración 50. Esta caída drástica indica que el modelo ha "entendido" perfectamente nuestros ejemplos y ahora predice las respuestas de ASIR con alta confianza.</p>
+        </div>
+        <img src="Imagen11.png" alt="Captura 11">
+    </div>
+
+    <!-- PASO 12 -->
+    <div class="step">
+        <div class="explanation">
+            <h3>12. Selección de modelo cuantizado</h3>
+            <p>Para la inferencia, podemos elegir versiones optimizadas. La lista muestra variantes de Gemma (4bit, 8bit, bf16). Usar la versión de 4 bits es ideal para MacBooks con poca RAM, ya que mantiene la calidad casi intacta ocupando la mitad de memoria.</p>
+        </div>
+        <img src="Imagen12.png" alt="Captura 12">
+    </div>
+
+    <!-- PASO 13 -->
+    <div class="step">
+        <div class="explanation">
+            <h3>13. Prueba de inferencia (Antes vs Después)</h3>
+            <p>Aquí comparamos resultados. El modelo base (arriba) da una definición genérica o corta. El modelo afinado (abajo, <code>gemma-asir-fused</code>) responde usando el estilo y contenido exacto que le enseñamos, definiendo "fine-tuning" como la adaptación de modelos con LoRA.</p>
+        </div>
+        <img src="Imagen13.png" alt="Captura 13">
+    </div>
+
+    <!-- PASO 14 -->
+    <div class="step">
+        <div class="explanation">
+            <h3>14. Validación final en LM Studio</h3>
+            <p>Cargamos el modelo final en una interfaz gráfica (LM Studio). Al preguntarle sobre Apache en Ubuntu o comandos de Linux, el modelo responde correctamente. Esto demuestra que los conocimientos técnicos inyectados durante el entrenamiento se han consolidado y son utilizables en un chat real.</p>
+        </div>
+        <img src="Imagen14.png" alt="Captura 14">
+    </div>
+
+</div>
 
 </body>
 </html>
+
