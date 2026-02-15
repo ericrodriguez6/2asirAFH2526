@@ -101,26 +101,9 @@
     </header>
 
     <main>
-      <!-- Captura 1 -->
+      <!-- Captura 1 (teoría de la 2) -->
       <section class="card">
         <span class="badge">Captura 1</span>
-        <h2>Configuración de opencode para usar Ollama (local)</h2>
-        <div class="explain">
-          <p>En esta captura se edita el archivo <code>~/.config/opencode/config.json</code> para que opencode apunte a un proveedor local.</p>
-          <ul>
-            <li>Se define el <code>provider</code> como <code>ollama</code> con interfaz compatible tipo OpenAI.</li>
-            <li>Se fija el <code>baseURL</code> a <code>http://127.0.0.1:11434/v1</code>, que es el endpoint local de Ollama.</li>
-            <li>En <code>models</code> se registra el modelo (por ejemplo <code>qwen2.5-coder:7b</code>) y se selecciona en <code>model</code> para que sea el usado por defecto.</li>
-          </ul>
-        </div>
-        <figure>
-          <img class="img" data-base="Imagen1Agente" src="Imagen1Agente.png" alt="Captura 1 - Configuración opencode" />
-        </figure>
-      </section>
-
-      <!-- Captura 2 -->
-      <section class="card">
-        <span class="badge">Captura 2</span>
         <h2>Instalación y preparación del directorio de configuración</h2>
         <div class="explain">
           <p>Esta captura muestra los comandos necesarios para dejar opencode instalado y listo para configurar.</p>
@@ -131,30 +114,30 @@
           </ul>
         </div>
         <figure>
-          <img class="img" data-base="Imagen2Agente" src="Imagen2Agente.png" alt="Captura 2 - Instalación y comandos" />
+          <img class="img" data-base="Imagen1Agente" src="Imagen1Agente.png" alt="Captura 1" />
         </figure>
       </section>
 
-      <!-- Captura 3 -->
+      <!-- Captura 2 (teoría de la 1) -->
       <section class="card">
-        <span class="badge">Captura 3</span>
-        <h2>Ejecución del agente en opencode (modelo local)</h2>
+        <span class="badge">Captura 2</span>
+        <h2>Configuración de opencode para usar Ollama (local)</h2>
         <div class="explain">
-          <p>Aquí se ve la interfaz de opencode ejecutando una petición en español (por ejemplo: “cuéntame un cuento”).</p>
+          <p>En esta captura se edita el archivo <code>~/.config/opencode/config.json</code> para que opencode apunte a un proveedor local.</p>
           <ul>
-            <li>El agente muestra la llamada/uso de una habilidad (por ejemplo <code>storytelling</code>) para orientar la respuesta.</li>
-            <li>Se aprecia el modelo seleccionado (<code>qwen2.5-coder:7b</code>) funcionando en local (Ollama).</li>
-            <li>Se muestra un monitor de uso de GPU (“Apple M4 (Integrada)”), indicando que el equipo está cargando trabajo durante la ejecución.</li>
+            <li>Se define el <code>provider</code> como <code>ollama</code> con interfaz compatible tipo OpenAI.</li>
+            <li>Se fija el <code>baseURL</code> a <code>http://127.0.0.1:11434/v1</code>, que es el endpoint local de Ollama.</li>
+            <li>En <code>models</code> se registra el modelo (por ejemplo <code>qwen2.5-coder:7b</code>) y se selecciona en <code>model</code> para que sea el usado por defecto.</li>
           </ul>
         </div>
         <figure>
-          <img class="img" data-base="Imagen3Agente" src="Imagen3Agente.png" alt="Captura 3 - opencode ejecutando el agente" />
+          <img class="img" data-base="Imagen2Agente" src="Imagen2Agente.png" alt="Captura 2" />
         </figure>
       </section>
 
-      <!-- Captura 4 -->
+      <!-- Captura 3 (teoría de la 4) -->
       <section class="card">
-        <span class="badge">Captura 4</span>
+        <span class="badge">Captura 3</span>
         <h2>Lanzamiento de opencode desde el proyecto</h2>
         <div class="explain">
           <p>En esta captura se entra al directorio del proyecto y se ejecuta opencode desde terminal.</p>
@@ -164,7 +147,24 @@
           </ul>
         </div>
         <figure>
-          <img class="img" data-base="Imagen4Agente" src="Imagen4Agente.png" alt="Captura 4 - Ejecución desde terminal" />
+          <img class="img" data-base="Imagen3Agente" src="Imagen3Agente.png" alt="Captura 3" />
+        </figure>
+      </section>
+
+      <!-- Captura 4 (teoría de la 3) -->
+      <section class="card">
+        <span class="badge">Captura 4</span>
+        <h2>Ejecución del agente en opencode (modelo local)</h2>
+        <div class="explain">
+          <p>Aquí se ve la interfaz de opencode ejecutando una petición en español (por ejemplo: "cuéntame un cuento").</p>
+          <ul>
+            <li>El agente muestra la llamada/uso de una habilidad (por ejemplo <code>storytelling</code>) para orientar la respuesta.</li>
+            <li>Se aprecia el modelo seleccionado (<code>qwen2.5-coder:7b</code>) funcionando en local (Ollama).</li>
+            <li>Se muestra un monitor de uso de GPU ("Apple M4 (Integrada)"), indicando que el equipo está cargando trabajo durante la ejecución.</li>
+          </ul>
+        </div>
+        <figure>
+          <img class="img" data-base="Imagen4Agente" src="Imagen4Agente.png" alt="Captura 4" />
         </figure>
       </section>
     </main>
