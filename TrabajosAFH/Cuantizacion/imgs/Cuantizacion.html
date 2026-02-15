@@ -13,7 +13,7 @@
             color: #333;
         }
         .header-section {
-            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); /* Degradado oscuro profesional */
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
             color: white;
             padding: 3rem 0;
             margin-bottom: 3rem;
@@ -50,7 +50,7 @@
         }
         .img-fluid {
             border-radius: 5px;
-            width: 100%; /* Asegura que la imagen ocupe el ancho */
+            width: 100%;
             height: auto;
         }
         .explanation-text {
@@ -59,14 +59,11 @@
             color: #555;
             text-align: justify;
         }
-        .highlight {
-            color: #0d6efd;
-            font-weight: 600;
-        }
         .metric-badge {
             font-size: 0.9rem;
             padding: 0.5em 0.8em;
             border-radius: 20px;
+            font-weight: bold;
         }
         footer {
             background-color: #2c3e50;
@@ -197,8 +194,7 @@
             <div class="col-12">
                 <h3 class="mb-4 text-secondary border-start border-4 border-warning ps-3">3. Verificación de Calidad (LM Studio)</h3>
                 <p class="mb-4 explanation-text">
-                    Finalmente, cargamos ambos modelos en una interfaz gráfica (LM Studio) para evaluar cualitativamente las respuestas. 
-                    Se busca detectar "alucinaciones" o incoherencias introducidas por la pérdida de precisión.
+                    Finalmente, cargamos ambos modelos en una interfaz gráfica (LM Studio) para evaluar cualitativamente las respuestas y medir la velocidad real en una conversación de chat.
                 </p>
             </div>
 
@@ -214,10 +210,13 @@
                                 </div>
                             </div>
                             <div class="col-md-7">
+                                <h6 class="fw-bold text-primary">Análisis de Respuesta</h6>
                                 <p class="explanation-text">
-                                    El modelo original genera una definición académica y estructurada sobre "Administración de Sistemas". 
-                                    Utiliza un listado de 10 puntos clave, cubriendo desde el diseño de red hasta la seguridad. 
-                                    La sintaxis es compleja y el vocabulario técnico es preciso.
+                                    El modelo original genera una definición académica y estructurada sobre "Administración de Sistemas", utilizando un listado de 10 puntos clave. 
+                                    La velocidad de generación medida en la interfaz gráfica es de 
+                                    <span class="badge bg-primary metric-badge">82.64 tok/sec</span>, 
+                                    con un tiempo total de generación de <strong>607 tokens</strong>. 
+                                    Aunque la calidad es excelente, la velocidad es moderada debido al mayor peso de los tensores.
                                 </p>
                             </div>
                         </div>
@@ -237,10 +236,13 @@
                                 </div>
                             </div>
                             <div class="col-md-7">
+                                <h6 class="fw-bold text-success">Análisis de Respuesta</h6>
                                 <p class="explanation-text">
-                                    El modelo comprimido responde a la misma consulta. Sorprendentemente, <strong>mantiene la estructura de lista y los conceptos clave</strong>.
-                                    Aunque la redacción varía ligeramente (como es natural en modelos generativos), no hay pérdida de información ni errores gramaticales.
-                                    Esto confirma que la cuantización a 4 bits preserva el conocimiento semántico del modelo, haciéndolo ideal para producción.
+                                    El modelo comprimido responde a la misma consulta manteniendo la estructura y los conceptos clave, sin pérdida de coherencia.
+                                    Lo más destacable es el rendimiento: alcanza una velocidad de 
+                                    <span class="badge bg-success metric-badge">150.49 tok/sec</span> 
+                                    para generar <strong>632 tokens</strong>. 
+                                    Esto confirma que la cuantización no solo ahorra espacio, sino que casi duplica la velocidad de respuesta en un entorno de chat real.
                                 </p>
                             </div>
                         </div>
@@ -275,3 +277,4 @@
 
 </body>
 </html>
+
