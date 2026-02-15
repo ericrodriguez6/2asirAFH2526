@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Práctica de Destilación de Modelos - ASIR</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 50px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .section h2 {
+            color: #2c3e50;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .explanation {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .explanation p {
+            color: #34495e;
+            font-size: 1.05em;
+            margin-bottom: 10px;
+        }
+        
+        .explanation ul {
+            margin-left: 25px;
+            color: #555;
+        }
+        
+        .explanation li {
+            margin-bottom: 8px;
+        }
+        
+        .image-container {
+            text-align: center;
+            background: #2c3e50;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+        
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+        
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧪 Práctica de Destilación de Modelos</h1>
+            <p>Knowledge Distillation con Qwen2.5 y Python</p>
+        </header>
+        
+        <div class="content">
+            <!-- Sección 1 -->
+            <div class="section">
+                <span class="badge">Paso 1</span>
+                <h2>Inicialización y Carga del Modelo Profesor</h2>
+                
+                <div class="explanation">
+                    <p><strong>🎯 Objetivo:</strong> Cargar el modelo de lenguaje grande (LLM) que actuará como "profesor" en el proceso de destilación.</p>
+                    
+                    <p><strong>📋 Proceso observado:</strong></p>
+                    <ul>
+                        <li><strong>Modelo Profesor:</strong> Qwen/Qwen2.5-0.5B-Instruct (0.5B parámetros)</li>
+                        <li><strong>Carga del tokenizador:</strong> Configuración JSON con 100% de progreso</li>
+                        <li><strong>Vocabulario:</strong> 2,7MB con 11.906/11.906 tokens cargados</li>
+                        <li><strong>Archivos adicionales:</strong> merges.txt (1.4MB) y special_tokens_map.json cargados</li>
+                        <li><strong>Model safetensors:</strong> 100% cargado (494MB)</li>
+                    </ul>
+                    
+                    <p><strong>⚡ Resultado:</strong> Cálculo de KL para la inteligencia artificial iniciado. <span class="highlight">RESULTADO DIVERGENCIA KL: 1.706555</span></p>
+                    
+                    <p>Este valor representa la divergencia inicial entre el profesor y el estudiante, indicando cuánto debe aprender el modelo estudiante.</p>
+                </div>
+                
+                <div class="image-container">
+                    <img src="Imagen1Destilacion.jpg" alt="Imagen 1 - Inicialización">
+                </div>
+            </div>
+            
+            <!-- Sección 2 -->
+            <div class="section">
+                <span class="badge">Paso 2</span>
+                <h2>Instalación de Dependencias</h2>
+                
+                <div class="explanation">
+                    <p><strong>🎯 Objetivo:</strong> Instalar las bibliotecas necesarias para realizar el entrenamiento del modelo estudiante.</p>
+                    
+                    <p><strong>📦 Paquetes instalados:</strong></p>
+                    <ul>
+                        <li><strong>torch:</strong> Framework principal de deep learning (versión 2.1.0 con soporte para macOS 11.0 ARM64)</li>
+                        <li><strong>transformers:</strong> Biblioteca de Hugging Face para modelos transformer (5.1.0)</li>
+                        <li><strong>accelerate:</strong> Para acelerar el entrenamiento distribuido (1.2.0)</li>
+                        <li><strong>filelock, typing_extensions, sympy:</strong> Dependencias auxiliares</li>
+                        <li><strong>networkx, jinja2:</strong> Para gestión de grafos y templates</li>
+                    </ul>
+                    
+                    <p><strong>✅ Estado:</strong> Todos los paquetes se instalaron correctamente usando caché local, optimizando el tiempo de configuración del entorno.</p>
+                    
+                    <p>Estas bibliotecas son esenciales para manejar los modelos transformer, realizar cálculos tensoriales eficientes y gestionar el proceso de destilación.</p>
+                </div>
+                
+                <div class="image-container">
+                    <img src="Imagen2Destilacion.jpg" alt="Imagen 2 - Instalación de dependencias">
+                </div>
+            </div>
+            
+            <!-- Sección 3 -->
+            <div class="section">
+                <span class="badge">Paso 3</span>
+                <h2>Predicciones del Modelo Profesor y Estudiante</h2>
+                
+                <div class="explanation">
+                    <p><strong>🎯 Objetivo:</strong> Comparar las predicciones Top-10 de ambos modelos para el prompt "La inteligencia artificial es..."</p>
+                    
+                    <p><strong>📊 Predicciones del Profesor (Qwen2.5-0.5B):</strong></p>
+                    <ul>
+                        <li>1º: "un" (probabilidad: 0.300)</li>
+                        <li>2º: "una" (probabilidad: 0.297)</li>
+                        <li>3º: "la" (probabilidad: 0.075)</li>
+                        <li>4º: "una" (token alternativo: 0.053)</li>
+                        <li>Otros tokens: "el", "capa", "i", "La", "ia"</li>
+                    </ul>
+                    
+                    <p><strong>🎓 Predicciones del Estudiante (modelo inicial):</strong></p>
+                    <ul>
+                        <li>1º: "una" (probabilidad: 0.082)</li>
+                        <li>2º: "la" (probabilidad: 0.023)</li>
+                        <li>3º: "un" (probabilidad: 0.017)</li>
+                        <li>4º: "el" (probabilidad: 0.011)</li>
+                        <li>Otros: "una" (variante), "capa", "La", "cama"</li>
+                    </ul>
+                    
+                    <p><strong>🔍 Análisis:</strong> El modelo profesor tiene predicciones más confiadas (probabilidades mayores), mientras que el estudiante muestra distribuciones más uniformes. <span class="highlight">KL Divergencia: 1.706555</span></p>
+                    
+                    <p>El objetivo del entrenamiento es reducir esta divergencia transfiriendo el conocimiento del profesor al estudiante.</p>
+                </div>
+                
+                <div class="image-container">
+                    <img src="Imagen3Destilacion.jpg" alt="Imagen 3 - Predicciones Top-10">
+                </div>
+            </div>
+            
+            <!-- Sección 4 -->
+            <div class="section">
+                <span class="badge">Paso 4</span>
+                <h2>Entrenamiento con Benchmark LAMBADA</h2>
+                
+                <div class="explanation">
+                    <p><strong>🎯 Objetivo:</strong> Entrenar el modelo estudiante usando el dataset LAMBADA (Language Modeling Broadened to Account for Discourse Aspects).</p>
+                    
+                    <p><strong>⚠️ Problema detectado:</strong></p>
+                    <ul>
+                        <li><strong>Error:</strong> "The following generation flags are not valid and may be ignored: ['temperature']"</li>
+                        <li><strong>Causa:</strong> El parámetro 'temperature' no está soportado en la configuración actual del modelo</li>
+                        <li><strong>Sugerencia:</strong> Usar 'TRANSFORMERS_VERBOSITY=info' para más detalles</li>
+                    </ul>
+                    
+                    <p><strong>🔧 Configuración del entrenamiento:</strong></p>
+                    <ul>
+                        <li><strong>Benchmark:</strong> LAMBADA (evaluación de comprensión contextual)</li>
+                        <li><strong>Flags conflictivos:</strong> temperatura, repetición, longitud, frecuencia</li>
+                        <li><strong>Modo:</strong> Solo respuestas TOPK (top-k sampling)</li>
+                        <li><strong>Profesor dominante:</strong> Habilitado</li>
+                    </ul>
+                    
+                    <p><strong>⚙️ Recomendación:</strong> Este error indica que se debe ajustar la configuración del modelo eliminando el flag 'temperature' o usando 'set TRANSFORMERS_VERBOSITY=info' para modo debug.</p>
+                    
+                    <p>El benchmark LAMBADA es crítico para evaluar la capacidad del modelo de predecir palabras finales en contextos largos, simulando comprensión de texto real.</p>
+                </div>
+                
+                <div class="image-container">
+                    <img src="Imagen4Destilacion.jpg" alt="Imagen 4 - Benchmark LAMBADA">
+                </div>
+            </div>
+            
+        </div>
+        
+        <footer>
+            <p><strong>Práctica de Destilación de Modelos - ASIR</strong></p>
+            <p>Febrero 2026 | Knowledge Distillation con Transformers</p>
+        </footer>
+    </div>
+</body>
+</html>
